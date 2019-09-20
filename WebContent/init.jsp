@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix = "fn" 
    uri = "http://java.sun.com/jsp/jstl/functions" %>
-<%@ page import="enums.Insurance, enums.State"%>
+<%@ page import="enums.State"%>
 <%@ page import="java.time.Month"%>
 <!DOCTYPE html>
 <html>
@@ -20,7 +20,6 @@
 </head>
 <body>
 	<!-- external javascript files -->
-	<script type="text/javascript" src="js/javascript.js"></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 		crossorigin="anonymous"></script>

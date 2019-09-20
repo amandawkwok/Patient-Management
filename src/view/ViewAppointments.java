@@ -1,5 +1,7 @@
 package view;
+
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,10 +16,10 @@ public class ViewAppointments extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		// response.setContentType("text/html");
-		//
-		// PrintWriter out = response.getWriter();
-		// out.println("<h1>ViewAppointments-doGet()</h1>");
+		response.setContentType("text/html");
+
+		PrintWriter out = response.getWriter();
+		out.println("<h1>ViewAppointments-doGet()</h1>");
 		request.getRequestDispatcher("view_appointments.jsp").include(request, response);
 	}
 }

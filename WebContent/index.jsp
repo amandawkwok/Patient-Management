@@ -29,7 +29,7 @@ img {
 		<div class="w3-display-middle">
 			<h1 class="w3-xlarge">MEDICAL SOLUTIONS GROUP</h1>
 			<h1>Dr. Burke</h1>
-			<p class="w3-medium">monday - friday 10-5 pm | saturday 10-3 pm</p>
+			<p class="w3-medium">Monday - Friday 10-5 pm | Saturday 10-3 pm</p>
 			<p class="w3-small">3801 W Temple Ave, Pomona, CA 91768</p>
 			<p class="w3-small">(909) 227-5689</p>
 			<hr class="w3-border-grey" style="margin: auto; width: 40%">

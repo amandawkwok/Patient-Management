@@ -1,4 +1,4 @@
-package enums;
+package helper;
 public class ConnectionCredentials {
 
 	public static final String SCHEMA_NAME = "jdbc";

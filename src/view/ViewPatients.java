@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entity.Appointment;
-import enums.ConnectionCredentials;
+import helper.ConnectionCredentials;
+import helper.PatientFormHelper;
 
 @WebServlet("/ViewPatients")
 public class ViewPatients extends HttpServlet {
@@ -29,29 +31,18 @@ public class ViewPatients extends HttpServlet {
 		String searchKey = request.getParameter("searchKey");
 		ArrayList<ArrayList<String>> aList = new ArrayList<ArrayList<String>>();
 
-		// SELECT P.id, P.firstName, P.lastName, C.contact AAA.dayTime FROM
-		// jdbc.Patient P
-		// LEFT JOIN (
-		// SELECT * FROM jdbc.Appointment A
-		// WHERE A.dayTime>=CURRENT_TIMESTAMP AND
-		// A.dayTime <= ALL (
-		// SELECT AA.dayTime
-		// FROM jdbc.Appointment AA
-		// WHERE A.patientID = AA.patientID AND AA.dayTime>=CURRENT_TIMESTAMP))
-		// AAA ON P.id=AAA.patientID;
-
 		if (searchKey == null || searchKey.trim().length() == 0) {
 			request.setAttribute("searchHeader", "Showing all patients");
-			aList = getPatientsByFilter("");
+			aList = _getPatientsByFilter("");
 		} else {
 			String[] searchKeyArray = searchKey.split("\\s+");
 			if (searchKeyArray.length == 1) {
 				request.setAttribute("searchHeader", "Showing results for: " + searchKey);
-				aList = getPatientsByFilter(" WHERE UPPER(FirstName) LIKE UPPER(\"" + searchKeyArray[0]
+				aList = _getPatientsByFilter(" WHERE UPPER(FirstName) LIKE UPPER(\"" + searchKeyArray[0]
 						+ "%\") OR UPPER(LastName) LIKE UPPER(\"" + searchKeyArray[0] + "%\")");
 			} else if (searchKeyArray.length == 2) {
 				request.setAttribute("searchHeader", "Showing results for: " + searchKey);
-				aList = getPatientsByFilter(" WHERE UPPER(FirstName) LIKE UPPER(\"" + searchKeyArray[0]
+				aList = _getPatientsByFilter(" WHERE UPPER(FirstName) LIKE UPPER(\"" + searchKeyArray[0]
 						+ "\") AND UPPER(LastName) LIKE UPPER(\"" + searchKeyArray[1] + "%\")");
 			} else if (searchKeyArray.length > 2) {
 				request.setAttribute("searchHeader", "No results found for: " + searchKey);
@@ -68,15 +59,16 @@ public class ViewPatients extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String primaryKey = request.getParameter("primaryKey");
+		long primaryKeyNumeric = Long.parseLong(primaryKey);
 
-		Long primaryKeyNumeric = Long.parseLong(primaryKey);
-		long primaryKeyObject = primaryKeyNumeric.longValue();
+		Map<String, String> patientInformation = PatientFormHelper.getFormFieldDatabasePairsBySSN(primaryKeyNumeric);
 
-		// upcomingAppts = getAppointmentsWithOptionsByFilter("upcoming"/"past")
-		// pastAppts = getAppointmentsWithOptionsByFilter("past")
+		for (Map.Entry<String, String> field : patientInformation.entrySet()) {
+			request.setAttribute(field.getKey(), field.getValue());
+		}
 
-		ArrayList<ArrayList<String>> upcomingAppts = Appointment.getBySSNAndTimePeriod(primaryKeyObject, "upcoming");
-		ArrayList<ArrayList<String>> pastAppts = Appointment.getBySSNAndTimePeriod(primaryKeyObject, "past");
+		ArrayList<ArrayList<String>> upcomingAppts = Appointment.getBySSNAndTimePeriod(primaryKeyNumeric, "upcoming");
+		ArrayList<ArrayList<String>> pastAppts = Appointment.getBySSNAndTimePeriod(primaryKeyNumeric, "past");
 
 		request.setAttribute("upcomingAppts", upcomingAppts);
 		request.setAttribute("pastAppts", pastAppts);
@@ -94,7 +86,7 @@ public class ViewPatients extends HttpServlet {
 	 *            the filter condition to be met by the query
 	 * @return a list of patient information
 	 */
-	public ArrayList<ArrayList<String>> getPatientsByFilter(String filterClause) {
+	private ArrayList<ArrayList<String>> _getPatientsByFilter(String filterClause) {
 		System.out.println(filterClause);
 		ArrayList<ArrayList<String>> aList = new ArrayList<ArrayList<String>>();
 		try {
@@ -134,6 +126,7 @@ public class ViewPatients extends HttpServlet {
 				aList.add(subList);
 			}
 			rs.close();
+			conn.close();
 
 		} catch (Exception e) {
 			System.out.println(e);

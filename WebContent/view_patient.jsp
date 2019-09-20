@@ -162,11 +162,13 @@
 					<form class="form-inline" method="post" action="ModifyPatient">
 						<input type="hidden" name="primaryKey" value="${primaryKey}" />
 						<input type="hidden" name="pageHeader" value="Edit" />
+						<input type="hidden" name="firstLoad" value="true" />
 						<button type="submit" class="btn btn-primary">Edit</button>
 					</form>
 				</td>
 				<td>
 					<form class="form-inline" method="get" action="DeletePatient">
+						<input type="hidden" name="primaryKey" value="${primaryKey}" />
 						<button type="submit" class="btn btn-danger">Delete
 							Patient</button>
 					</form>
@@ -213,7 +215,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		
+
 		<form class="form-inline">
 			<input type="hidden" name="primaryKey" value="${ssn}" />
 			<button type="submit" class="btn btn-warning">Create New

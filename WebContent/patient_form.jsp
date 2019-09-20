@@ -36,38 +36,40 @@
 			</h4>
 			<div class="form-row">
 				<div class="form-group col-md-4">
-					<label for="firstName">First Name *</label> <input type="text"
-						class="form-control" name="firstName" id="firstName"
-						value="${firstName}">
+					<label for="firstName">First Name *</label>
+					<input type="text" class="form-control" name="firstName"
+						id="firstName" value="${firstName}">
 				</div>
 				<div class="form-group col-md-4">
-					<label for="middleName">Middle Name</label> <input type="text"
-						class="form-control" name="middleName" id="middleName"
-						value="${middleName}">
+					<label for="middleName">Middle Name</label>
+					<input type="text" class="form-control" name="middleName"
+						id="middleName" value="${middleName}">
 				</div>
 				<div class="form-group col-md-4">
-					<label for="lastName">Last Name *</label> <input type="text"
-						class="form-control" name="lastName" id="lastName"
-						value="${lastName}">
+					<label for="lastName">Last Name *</label>
+					<input type="text" class="form-control" name="lastName"
+						id="lastName" value="${lastName}">
 				</div>
 			</div>
 			<div class="form-row">
 				<div class="form-group col-md-6">
-					<label for="birthday">DOB *</label> <input type="date"
-						class="form-control" name="birthday" id="birthday"
-						value="${birthday}">
+					<label for="birthday">DOB *</label>
+					<input type="date" class="form-control" name="birthday"
+						id="birthday" placeholder="MM/DD/YYYY" value="${birthday}">
 				</div>
 			</div>
 			<div class="form-row">
 				<div class="form-group col-md-6">
-					<label for="ssn">SSN *</label> <input type="text"
-						class="form-control" name="ssn" id="ssn" value="${ssn}">
+					<label for="ssn">SSN *</label>
+					<input type="text" class="form-control" name="ssn" id="ssn"
+						value="${ssn}">
 				</div>
 				<div class="form-group col-md-2">
 					<label for="sex">Sex *</label>
 					<select name="sex" id="sex" class="form-control">
-						<option value="1">M</option>
-						<option value="0" ${ '0' eq sex ? 'selected' : ''}>F</option>
+						<option value="M" ${ 'M' eq sex ? 'selected' : ''}>M</option>
+						<option value="F" ${ 'F' eq sex ? 'selected' : ''}>F</option>
+						<option value="N/A" ${ 'N/A' eq sex ? 'selected' : ''}>N/A</option>
 					</select>
 				</div>
 			</div>
@@ -78,18 +80,21 @@
 				<b>ADDRESS</b>
 			</h4>
 			<div class="form-group">
-				<label for="address1">Address 1 *</label> <input type="text"
-					class="form-control" name="address1" id="address1" value="${address1}">
+				<label for="address1">Address 1 *</label>
+				<input type="text" class="form-control" name="address1"
+					id="address1" value="${address1}">
 			</div>
 			<div class="form-group">
-				<label for="address2">Address 2</label> <input type="text"
-					class="form-control" name="address2" id="address2" value="${address2}"
+				<label for="address2">Address 2</label>
+				<input type="text" class="form-control" name="address2"
+					id="address2" value="${address2}"
 					placeholder="Apartment, studio, or floor">
 			</div>
 			<div class="form-row">
 				<div class="form-group col-md-6">
-					<label for="city">City *</label> <input type="text"
-						class="form-control" name="city" id="city" value="${city}">
+					<label for="city">City *</label>
+					<input type="text" class="form-control" name="city" id="city"
+						value="${city}">
 				</div>
 				<div class="form-group col-md-4">
 					<c:set var="stateValues" value="<%=State.values()%>" />
@@ -102,8 +107,9 @@
 					</select>
 				</div>
 				<div class="form-group col-md-2">
-					<label for="zip">Zip *</label> <input type="text"
-						class="form-control" name="zip" id="zip" value="${zip}">
+					<label for="zip">Zip *</label>
+					<input type="text" class="form-control" name="zip" id="zip"
+						value="${zip}">
 				</div>
 			</div>
 
@@ -114,23 +120,27 @@
 			</h4>
 			<div class="form-row">
 				<div class="form-group col-md-3">
-					<label for="cellPhone">Cell Phone *</label> <input type="text"
-						class="form-control" name="cellPhone" id="cellPhone" value="${cellPhone}">
+					<label for="cellPhone">Cell Phone *</label>
+					<input type="text" class="form-control" name="cellPhone"
+						id="cellPhone" value="${cellPhone}">
 				</div>
 				<div class="form-group col-md-3">
-					<label for="homePhone">Home Phone</label> <input type="text"
-						class="form-control" name="homePhone" id="homePhone" value="${homePhone}">
+					<label for="homePhone">Home Phone</label>
+					<input type="text" class="form-control" name="homePhone"
+						id="homePhone" value="${homePhone}">
 				</div>
 				<div class="form-group col-md-3">
-					<label for="workPhone">Work Phone</label> <input type="text"
-						class="form-control" name="workPhone" id="workPhone" value="${workPhone}">
+					<label for="workPhone">Work Phone</label>
+					<input type="text" class="form-control" name="workPhone"
+						id="workPhone" value="${workPhone}">
 				</div>
 
 			</div>
 			<div class="form-row">
 				<div class="form-group col-md-3">
-					<label for="email">Email</label> <input type="text"
-						class="form-control" name="email" id="email" value="${email}">
+					<label for="email">Email</label>
+					<input type="text" class="form-control" name="email" id="email"
+						value="${email}">
 				</div>
 			</div>
 
@@ -141,17 +151,19 @@
 			</h4>
 			<div class="form-row">
 				<div class="form-group col-md-3">
-					<label for="emergencyName">Name *</label> <input type="text"
-						class="form-control" name="emergencyName" id="emergencyName" value="${emergencyName}">
+					<label for="emergencyName">Name *</label>
+					<input type="text" class="form-control" name="emergencyName"
+						id="emergencyName" value="${emergencyName}">
 				</div>
 				<div class="form-group col-md-3">
-					<label for="emergencyRelationship">Relationship</label> <input
-						type="text" class="form-control" name="emergencyRelationship"
-						id="emergencyRelationship" value="${emergencyRelationship}">
+					<label for="emergencyRelationship">Relationship</label>
+					<input type="text" class="form-control"
+						name="emergencyRelationship" id="emergencyRelationship"
+						value="${emergencyRelationship}">
 				</div>
 				<div class="form-group col-md-3">
-					<label for="emergencyNumber">Phone Number *</label> <input
-						type="text" class="form-control" name="emergencyNumber"
+					<label for="emergencyNumber">Phone Number *</label>
+					<input type="text" class="form-control" name="emergencyNumber"
 						id="emergencyNumber" value="${emergencyNumber}">
 				</div>
 			</div>
@@ -163,60 +175,86 @@
 			</h4>
 			<div class="form-row">
 				<div class="form-group col-md-6">
-					<c:set var="insuranceValues" value="<%=Insurance.values()%>" />
 					<label for="insuranceName">Name *</label>
 					<select name="insuranceName" id="insuranceName"
 						class="form-control">
-						<c:forEach items="${insuranceValues}" var="insuranceValue">
-							<option value="${insuranceValue}"
-								${ insuranceValue eq insuranceName ? 'selected' : ''}>${insuranceValue.fullName}</option>
-						</c:forEach>
+						<option value="Anthem HMO"
+							${ 'Anthem HMO' eq insuranceName ? 'selected' : ''}>Anthem HMO</option>
+						<option value="Anthem HSA"
+							${ 'Anthem HSA' eq insuranceName ? 'selected' : ''}>Anthem HSA</option>
+						<option value="Anthem PPO"
+							${ 'Anthem PPO' eq insuranceName ? 'selected' : ''}>Anthem PPO</option>
+						<option value="Blue Cross HMO"
+							${ 'Blue Cross HMO' eq insuranceName ? 'selected' : ''}>Blue Cross
+							HMO</option>
+						<option value="Blue Cross HSA"
+							${ 'Blue Cross HSA' eq insuranceName ? 'selected' : ''}>Blue Cross
+							HSA</option>
+						<option value="Blue Cross PPO"
+							${ 'Blue Cross PPO' eq insuranceName ? 'selected' : ''}>Blue Cross
+							PPO</option>
+						<option value="Kaiser Permanente HMO"
+							${ 'Kaiser Permanente HMO' eq insuranceName ? 'selected' : ''}>Kaiser
+							Permanente HMO</option>
+						<option value="Kaiser Permanente HSA"
+							${ 'Kaiser Permanente HSA' eq insuranceName ? 'selected' : ''}>Kaiser
+							Permanente HSA</option>
+						<option value="Kaiser Permanente PPO"
+							${ 'Kaiser Permanente PPO' eq insuranceName ? 'selected' : ''}>Kaiser
+							Permanente PPO</option>
+
 					</select>
 				</div>
 			</div>
 			<div class="form-row">
 				<div class="form-group col-md-12">
-					<label for="insuranceAddress">Address</label> <input type="text"
-						class="form-control" name="insuranceAddress" id="insuranceAddress" value="${insuranceAddress}">
+					<label for="insuranceAddress">Address</label>
+					<input type="text" class="form-control" name="insuranceAddress"
+						id="insuranceAddress" value="${insuranceAddress}">
 				</div>
 			</div>
 			<div class="form-row">
 				<div class="form-group col-md-3">
-					<label for="insuranceID">ID *</label> <input type="text"
-						class="form-control" name="insuranceID" id="insuranceID" value="${insuranceID}">
+					<label for="insuranceID">ID *</label>
+					<input type="text" class="form-control" name="insuranceID"
+						id="insuranceID" value="${insuranceID}">
 				</div>
 				<div class="form-group col-md-3">
-					<label for="insuranceGroup">Group ID</label> <input type="text"
-						class="form-control" name="insuranceGroup" id="insuranceGroup" value="${insuranceGroup}">
+					<label for="insuranceGroup">Group ID</label>
+					<input type="text" class="form-control" name="insuranceGroup"
+						id="insuranceGroup" value="${insuranceGroup}">
 				</div>
 				<div class="form-group col-md-3">
-					<label for="insuranceCopay">Copay</label> <input type="text"
-						class="form-control" name="insuranceCopay" id="insuranceCopay" value="${insuranceCopay}">
+					<label for="insuranceCopay">Copay</label>
+					<input type="text" class="form-control" name="insuranceCopay"
+						id="insuranceCopay" value="${insuranceCopay}">
 				</div>
 			</div>
 			<div class="form-row">
 				<div class="form-group col-md-6">
-					<label for="effectiveDate">Effective Date *</label> <input
-						type="date" class="form-control" name="effectiveDate"
-						id="effectiveDate" value="${effectiveDate}">
+					<label for="effectiveDate">Effective Date *</label>
+					<input type="date" class="form-control" name="effectiveDate"
+						id="effectiveDate" placeholder="MM/DD/YYYY"
+						value="${effectiveDate}">
 				</div>
 			</div>
 			<p>
 			<div class="form-row">
 				<div class="form-group col-md-3">
-					<label for="policyHolderName">Policy Holder Name *</label> <input
-						type="text" class="form-control" name="policyHolderName"
+					<label for="policyHolderName">Policy Holder Name *</label>
+					<input type="text" class="form-control" name="policyHolderName"
 						id="policyHolderName" value="${policyHolderName}">
 				</div>
 				<div class="form-group col-md-3">
-					<label for="policyHolderSSN">Policy Holder SSN</label> <input
-						type="text" class="form-control" name="policyHolderSSN"
+					<label for="policyHolderSSN">Policy Holder SSN</label>
+					<input type="text" class="form-control" name="policyHolderSSN"
 						id="policyHolderSSN" value="${policyHolderSSN}">
 				</div>
 				<div class="form-group col-md-6">
-					<label for="policyHolderBirthday">Policy Holder DOB *</label> <input
-						type="text" class="form-control" name="policyHolderBirthday"
-						id="policyHolderBirthday" placeholder="MM/DD/YYYY" value="${policyHolderBirthday}">
+					<label for="policyHolderBirthday">Policy Holder DOB *</label>
+					<input type="text" class="form-control" name="policyHolderBirthday"
+						id="policyHolderBirthday" placeholder="MM/DD/YYYY"
+						value="${policyHolderBirthday}">
 				</div>
 			</div>
 			<button type="submit" class="btn btn-primary">Save</button>
