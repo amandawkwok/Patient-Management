@@ -6,23 +6,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import helper.ConnectionCredentials;
 
 public class Insurance {
-
-	public static void main(String[] args) throws ClassNotFoundException, ParseException {
-		// add(888, "name", "address", "id", "group", 0,
-		// update(888, "InsuranceName", "InsuranceAddress", "InsuranceID",
-		// "InsuranceGroup", 36l,
-		// DateHelper.convertToSQLDate("09/15/2008"), "InsuranceHolderName",
-		// 37l,
-		// DateHelper.convertToSQLDate("10/22/2020"));
-		System.out.println(getBySSN(888));
-	}
 
 	public static void add(long ssn, String name, String address, String id, String group, long copay,
 			Date effectiveDate, String policyHolderName, long policyHolderSSN, Date policyHolderBirthday)
@@ -37,10 +26,22 @@ public class Insurance {
 			stmt.setString(3, address);
 			stmt.setString(4, id);
 			stmt.setString(5, group);
-			stmt.setLong(6, copay);
+
+			if (copay == java.sql.Types.BIGINT) {
+				stmt.setNull(6, java.sql.Types.BIGINT);
+			} else {
+				stmt.setLong(6, copay);
+			}
+
 			stmt.setDate(7, effectiveDate);
 			stmt.setString(8, policyHolderName);
-			stmt.setLong(9, policyHolderSSN);
+
+			if (policyHolderSSN == java.sql.Types.BIGINT) {
+				stmt.setNull(9, java.sql.Types.BIGINT);
+			} else {
+				stmt.setLong(9, policyHolderSSN);
+			}
+
 			stmt.setDate(10, policyHolderBirthday);
 			stmt.executeUpdate();
 			conn.close();
@@ -94,10 +95,22 @@ public class Insurance {
 			stmt.setString(2, address);
 			stmt.setString(3, id);
 			stmt.setString(4, group);
-			stmt.setLong(5, copay);
+
+			if (copay == java.sql.Types.BIGINT) {
+				stmt.setNull(5, java.sql.Types.BIGINT);
+			} else {
+				stmt.setLong(5, copay);
+			}
+
 			stmt.setDate(6, effectiveDate);
 			stmt.setString(7, policyHolderName);
-			stmt.setLong(8, policyHolderSSN);
+
+			if (policyHolderSSN == java.sql.Types.BIGINT) {
+				stmt.setNull(8, java.sql.Types.BIGINT);
+			} else {
+				stmt.setLong(8, policyHolderSSN);
+			}
+
 			stmt.setDate(9, policyHolderBirthday);
 			stmt.setLong(10, ssn);
 			stmt.executeUpdate();

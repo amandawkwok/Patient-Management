@@ -18,15 +18,13 @@ public class DeletePatient extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String ssn = request.getParameter("primaryKey");
-		Long ssnObject = Long.parseLong(ssn);
-		long ssnPrimitive = ssnObject.longValue();
 
 		try {
-			Patient.delete(ssnPrimitive);
+			Patient.delete(Long.parseLong(ssn));
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		// repopulate ViewPatient.jsp
+
 		RequestDispatcher rd = request.getRequestDispatcher("ViewPatients");
 		rd.forward(request, response);
 	}

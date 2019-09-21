@@ -2,6 +2,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+div.a {
+	text-align: left;
+}
+
+div.b {
+	text-align: right;
+}
+</style>
 <title>View Patients</title>
 </head>
 <body>
@@ -15,13 +24,15 @@
 			<button class="btn btn-sm btn-outline-secondary" type="submit">New
 				Patient</button>
 		</form>
-		<form class="form-inline">
+		<form class="form-inline" method="get" action="ViewPatients">
 			<input class="form-control mr-sm-2" type="search"
-				placeholder="Patient Name" aria-label="Search" name="searchKey">
+				placeholder="Patient Name" aria-label="Search" name="filterClause">
 			<button class="btn btn-sm btn-outline-secondary" type="submit">Search</button>
 		</form>
 	</nav>
+
 	<h4>&nbsp;&nbsp;${searchHeader}</h4>
+
 	<table class="table">
 		<thead>
 			<tr>
@@ -43,5 +54,3 @@
 	</table>
 </body>
 </html>
-
-

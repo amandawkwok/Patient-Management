@@ -5,19 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import helper.ConnectionCredentials;
 
 public class EmergencyContact {
-
-	public static void main(String[] args) throws ClassNotFoundException, ParseException {
-		// add(888, "Sandy", "Mother", 6265335204l);
-		// update(888, "Frank", "Father", 5204l);
-		System.out.println(getBySSN(888));
-	}
 
 	public static void add(long ssn, String name, String relationship, long number) throws ClassNotFoundException {
 		try {

@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +13,7 @@ import helper.ConnectionCredentials;
 
 public class Patient {
 
-	public static void main(String[] args) throws ClassNotFoundException, ParseException {
-		// add(33333, "First3", "Middle3", "Last3", birthday, false);
-		// update(1234567890, 888, "NewAmanda", "NewW", "NewKwok",
-		System.out.println(getBySSN(888));
-	}
-
-	public static void add(long ssn, String first, String middle, String last, Date birthday, boolean sex)
+	public static void add(long ssn, String first, String middle, String last, Date birthday, String sex)
 			throws ClassNotFoundException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -32,7 +25,7 @@ public class Patient {
 			stmt.setString(3, middle);
 			stmt.setString(4, last);
 			stmt.setDate(5, birthday);
-			stmt.setBoolean(6, sex);
+			stmt.setString(6, sex);
 			stmt.executeUpdate();
 			conn.close();
 		} catch (Exception e) {
@@ -104,7 +97,7 @@ public class Patient {
 	}
 
 	public static void update(long oldSSN, long newSSN, String first, String middle, String last, Date birthday,
-			boolean sex) throws ClassNotFoundException {
+			String sex) throws ClassNotFoundException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(ConnectionCredentials.URL, ConnectionCredentials.USERNAME,
@@ -116,7 +109,7 @@ public class Patient {
 			stmt.setString(3, middle);
 			stmt.setString(4, last);
 			stmt.setDate(5, birthday);
-			stmt.setBoolean(6, sex);
+			stmt.setString(6, sex);
 			stmt.setLong(7, oldSSN);
 			stmt.executeUpdate();
 			conn.close();

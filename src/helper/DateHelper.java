@@ -25,11 +25,11 @@ public class DateHelper {
 		format.setLenient(false);
 		try {
 			if (dateString.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")) {
-				java.util.Date date = format.parse(dateString);
+				format.parse(dateString);
 				isDate = true;
 			}
 		} catch (ParseException pe) {
-			return false;
+			isDate = false;
 		}
 		return isDate;
 	}

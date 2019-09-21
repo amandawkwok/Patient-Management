@@ -1,6 +1,7 @@
 package helper;
 
 public class Validator {
+
 	// Returns true if every character is white space, or null
 	public static boolean isNull(String phrase) {
 		if (phrase == null)
@@ -13,12 +14,18 @@ public class Validator {
 		return true;
 	}
 
-	public static boolean isNumeric(String value) {
+	//
+	public static boolean isValidNumeric(String value) {
+		boolean isValidNumeric = true;
+
 		try {
-			Long.parseLong(value);
-			return true;
+			if (Long.parseLong(value) < 0) {
+				isValidNumeric = false;
+			}
 		} catch (NumberFormatException e) {
-			return false;
+			isValidNumeric = false;
 		}
+
+		return isValidNumeric;
 	}
 }

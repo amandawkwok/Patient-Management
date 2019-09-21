@@ -28,27 +28,28 @@ public class ViewPatients extends HttpServlet {
 	 * Retrieves all patients for view_patients.jsp
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String searchKey = request.getParameter("searchKey");
+		String filterClause = request.getParameter("filterClause");
 		ArrayList<ArrayList<String>> aList = new ArrayList<ArrayList<String>>();
 
-		if (searchKey == null || searchKey.trim().length() == 0) {
+		if (filterClause == null || filterClause.trim().length() == 0) {
 			request.setAttribute("searchHeader", "Showing all patients");
 			aList = _getPatientsByFilter("");
 		} else {
-			String[] searchKeyArray = searchKey.split("\\s+");
+			String[] searchKeyArray = filterClause.split("\\s+");
 			if (searchKeyArray.length == 1) {
-				request.setAttribute("searchHeader", "Showing results for: " + searchKey);
+				request.setAttribute("searchHeader", "Showing results for: " + filterClause);
 				aList = _getPatientsByFilter(" WHERE UPPER(FirstName) LIKE UPPER(\"" + searchKeyArray[0]
 						+ "%\") OR UPPER(LastName) LIKE UPPER(\"" + searchKeyArray[0] + "%\")");
 			} else if (searchKeyArray.length == 2) {
-				request.setAttribute("searchHeader", "Showing results for: " + searchKey);
+				request.setAttribute("searchHeader", "Showing results for: " + filterClause);
 				aList = _getPatientsByFilter(" WHERE UPPER(FirstName) LIKE UPPER(\"" + searchKeyArray[0]
 						+ "\") AND UPPER(LastName) LIKE UPPER(\"" + searchKeyArray[1] + "%\")");
 			} else if (searchKeyArray.length > 2) {
-				request.setAttribute("searchHeader", "No results found for: " + searchKey);
+				request.setAttribute("searchHeader", "No results found for: " + filterClause);
 			}
 		}
 
+		request.setAttribute("filterClause", filterClause);
 		request.setAttribute("arrayList", aList);
 		request.getRequestDispatcher("view_patients.jsp").include(request, response);
 	}
@@ -87,20 +88,21 @@ public class ViewPatients extends HttpServlet {
 	 * @return a list of patient information
 	 */
 	private ArrayList<ArrayList<String>> _getPatientsByFilter(String filterClause) {
-		System.out.println(filterClause);
+
 		ArrayList<ArrayList<String>> aList = new ArrayList<ArrayList<String>>();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(ConnectionCredentials.URL, ConnectionCredentials.USERNAME,
 					ConnectionCredentials.PASSWORD);
 			Statement stmt = conn.createStatement();
+
 			ResultSet rs = stmt.executeQuery(
 					"SELECT FirstName, LastName, DATE_FORMAT(AppointmentDayTime, \"%m/%d/%y %h:%i %p\"), C.cell, AAAA.SSN "
 							+ "FROM (SELECT P.SSN AS SSN, P.first as FirstName, P.last as LastName, AAA.dayTime as AppointmentDayTime "
 							+ "FROM Patient P LEFT JOIN (SELECT * FROM jdbc.Appointment A WHERE A.dayTime>="
 							+ "CURRENT_TIMESTAMP AND A.dayTime <= ALL (SELECT AA.dayTime FROM Appointment AA "
 							+ "WHERE A.SSN = AA.SSN AND AA.dayTime>=CURRENT_TIMESTAMP)) AAA ON P.SSN=AAA.SSN)"
-							+ " AAAA LEFT JOIN Contact C ON AAAA.SSN=C.SSN" + filterClause + " ORDER BY FirstName ASC");
+							+ " AAAA LEFT JOIN Contact C ON AAAA.SSN=C.SSN" + filterClause);
 
 			ResultSetMetaData rsMeta = rs.getMetaData();
 			int columnCount = rsMeta.getColumnCount() - 1;
@@ -131,7 +133,6 @@ public class ViewPatients extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-
 		return aList;
 	}
 }

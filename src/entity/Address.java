@@ -5,19 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import helper.ConnectionCredentials;
 
 public class Address {
-
-	public static void main(String[] args) throws ClassNotFoundException, ParseException {
-		// add(888, "address1", "address2", "city", "NY", 91765);
-		// update(888, "1350 Maple Hill", "Lane", "Diamond Bar", "CA", 91765);
-		// System.out.println(getBySSN(888));
-	}
 
 	public static void add(long ssn, String address1, String address2, String city, String state, int zip)
 			throws ClassNotFoundException {

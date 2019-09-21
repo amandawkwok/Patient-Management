@@ -5,19 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import helper.ConnectionCredentials;
 
 public class Contact {
-
-	public static void main(String[] args) throws ClassNotFoundException, ParseException {
-		// add(888, 9099647967l, 9093966419l, 9095759446l, "akwok97@gmail.com");
-		// update(888, 7967l, 6419l, 9446l, "gmail.com");
-		System.out.println(getBySSN(888));
-	}
 
 	public static void add(long ssn, long cell, long home, long work, String email) throws ClassNotFoundException {
 		try {
@@ -27,8 +20,19 @@ public class Contact {
 			stmt = conn.prepareStatement("INSERT INTO Contact VALUES (?, ?, ?, ?, ?)");
 			stmt.setLong(1, ssn);
 			stmt.setLong(2, cell);
-			stmt.setLong(3, home);
-			stmt.setLong(4, work);
+
+			if (home == java.sql.Types.BIGINT) {
+				stmt.setNull(3, java.sql.Types.BIGINT);
+			} else {
+				stmt.setLong(3, home);
+			}
+
+			if (work == java.sql.Types.BIGINT) {
+				stmt.setNull(4, java.sql.Types.BIGINT);
+			} else {
+				stmt.setLong(4, work);
+			}
+
 			stmt.setString(5, email);
 			stmt.executeUpdate();
 			conn.close();
@@ -71,8 +75,19 @@ public class Contact {
 					ConnectionCredentials.PASSWORD);
 			stmt = conn.prepareStatement("UPDATE Contact SET cell = ?, home = ?, work = ?, email = ? WHERE ssn = ?");
 			stmt.setLong(1, cell);
-			stmt.setLong(2, home);
-			stmt.setLong(3, work);
+
+			if (home == java.sql.Types.BIGINT) {
+				stmt.setNull(2, java.sql.Types.BIGINT);
+			} else {
+				stmt.setLong(2, home);
+			}
+
+			if (work == java.sql.Types.BIGINT) {
+				stmt.setNull(3, java.sql.Types.BIGINT);
+			} else {
+				stmt.setLong(3, work);
+			}
+
 			stmt.setString(4, email);
 			stmt.setLong(5, ssn);
 			stmt.executeUpdate();

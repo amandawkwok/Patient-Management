@@ -221,7 +221,6 @@
 			<button type="submit" class="btn btn-warning">Create New
 				Appointment</button>
 		</form>
-
 	</div>
 </body>
 </html>

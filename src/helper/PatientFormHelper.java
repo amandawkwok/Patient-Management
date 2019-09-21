@@ -14,7 +14,7 @@ import entity.Insurance;
 import entity.Patient;
 
 public class PatientFormHelper {
-	public static List<String> validateInput(HttpServletRequest request) {
+	public static List<String> validateInput(HttpServletRequest request, long primaryKey) {
 		LinkedHashMap<String, String> lhm = getFormFieldInputPairs(request);
 		List<String> errors = new ArrayList<String>();
 
@@ -33,10 +33,10 @@ public class PatientFormHelper {
 
 		String ssn = lhm.get("ssn");
 
-		if (Validator.isNull(ssn) || !Validator.isNumeric(ssn) || String.valueOf(ssn).length() != 10) {
+		if (Validator.isNull(ssn) || !Validator.isValidNumeric(ssn) || String.valueOf(ssn).length() != 10) {
 			errors.add("Patient SSN must be a 10 digit number.");
 		} else {
-			if (Patient.exists(Long.parseLong(ssn))) {
+			if (Patient.exists(Long.parseLong(ssn)) && primaryKey != Long.parseLong(ssn)) {
 				errors.add("A patient with that SSN already exists.");
 			}
 		}
@@ -50,20 +50,20 @@ public class PatientFormHelper {
 			errors.add("City cannot be left blank.");
 		}
 
-		if (Validator.isNull(lhm.get("zip")) || !Validator.isNumeric(lhm.get("zip"))) {
+		if (Validator.isNull(lhm.get("zip")) || !Validator.isValidNumeric(lhm.get("zip"))) {
 			errors.add("Zip code is not a valid number.");
 		}
 
 		// CONTACT
-		if (Validator.isNull(lhm.get("cellPhone")) || !Validator.isNumeric(lhm.get("cellPhone"))) {
+		if (Validator.isNull(lhm.get("cellPhone")) || !Validator.isValidNumeric(lhm.get("cellPhone"))) {
 			errors.add("Cell phone number is not valid.");
 		}
 
-		if (!lhm.get("homePhone").equals("") && !Validator.isNumeric(lhm.get("homePhone"))) {
+		if (!lhm.get("homePhone").equals("") && !Validator.isValidNumeric(lhm.get("homePhone"))) {
 			errors.add("Home phone number is not valid.");
 		}
 
-		if (!lhm.get("workPhone").equals("") && !Validator.isNumeric(lhm.get("workPhone"))) {
+		if (!lhm.get("workPhone").equals("") && !Validator.isValidNumeric(lhm.get("workPhone"))) {
 			errors.add("Work phone number is not valid.");
 		}
 
@@ -72,7 +72,7 @@ public class PatientFormHelper {
 			errors.add("Emergency Contact Name cannot be left blank.");
 		}
 
-		if (lhm.get("emergencyNumber").equals("") || !Validator.isNumeric(lhm.get("emergencyNumber"))) {
+		if (lhm.get("emergencyNumber").equals("") || !Validator.isValidNumeric(lhm.get("emergencyNumber"))) {
 			errors.add("Emergency Contact Number is not valid.");
 		}
 
@@ -81,7 +81,7 @@ public class PatientFormHelper {
 			errors.add("Insurance ID cannot be left blank.");
 		}
 
-		if (!lhm.get("insuranceCopay").equals("") && !Validator.isNumeric(lhm.get("insuranceCopay"))) {
+		if (!lhm.get("insuranceCopay").equals("") && !Validator.isValidNumeric(lhm.get("insuranceCopay"))) {
 			errors.add("Insurance Copay is not a valid number.");
 		}
 
@@ -95,7 +95,7 @@ public class PatientFormHelper {
 
 		String insuranceSsn = lhm.get("policyHolderSSN");
 		if (!Validator.isNull(insuranceSsn)
-				&& (!Validator.isNumeric(insuranceSsn) || String.valueOf(insuranceSsn).length() != 10)) {
+				&& (!Validator.isValidNumeric(insuranceSsn) || String.valueOf(insuranceSsn).length() != 10)) {
 			errors.add("Policy Holder SSN must be a 10 digit number.");
 		}
 
@@ -108,8 +108,7 @@ public class PatientFormHelper {
 	}
 
 	// Returns a key-value pairing of the form fields with their respective
-	// input
-	// values
+	// input values
 	public static LinkedHashMap<String, String> getFormFieldInputPairs(HttpServletRequest request) {
 		String[] formFields = getFormFields();
 		int formFieldsCount = formFields.length;
@@ -177,9 +176,5 @@ public class PatientFormHelper {
 		}
 
 		return map;
-	}
-
-	public static void main(String[] args) {
-		System.out.println(getFormFieldDatabasePairsBySSN(888));
 	}
 }
