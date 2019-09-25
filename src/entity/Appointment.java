@@ -38,12 +38,9 @@ public class Appointment {
 				subList = new ArrayList<String>();
 				for (int col = 1; col <= columnCount; col++) {
 					if (col == columnCount) {
-						if (timePeriod.equals("upcoming")) {
-							subList.add(
-									"<form class=\"form-inline\"><input type=\"hidden\" name=\"appointmentID\" value=\""
-											+ rs.getString(col)
-											+ "\" /><button type=\"submit\" class=\"btn btn-primary\">Edit</button></form>");
-						}
+						subList.add("<form class=\"form-inline\"><input type=\"hidden\" name=\"appointmentID\" value=\""
+								+ rs.getString(col)
+								+ "\" /><button type=\"submit\" class=\"btn btn-primary\">Edit</button></form>");
 						subList.add("<form class=\"form-inline\"><input type=\"hidden\" name=\"appointmentID\" value=\""
 								+ rs.getString(col)
 								+ "\" /><button type=\"submit\" class=\"btn btn-danger\">Delete</button></form>");

@@ -8,7 +8,7 @@
 	<nav class="navbar navbar-light bg-light justify-content-between">
 		<a class="navbar-brand" href="index.jsp"> <img
 			src="https://image.flaticon.com/icons/svg/149/149423.svg" alt="logo"
-			style="width: 30px;"> &nbsp;&nbsp;&nbsp; ${param.pageHeader} 
+			style="width: 30px;"> &nbsp;&nbsp;&nbsp; ${param.pageHeader}
 			Patient
 		</a>
 	</nav>
@@ -36,33 +36,34 @@
 			</h4>
 			<div class="form-row">
 				<div class="form-group col-md-4">
-					<label for="firstName">First Name *</label>
-					<input type="text" class="form-control" name="firstName"
-						id="firstName" value="${firstName}">
-				</div>
-				<div class="form-group col-md-4">
-					<label for="middleName">Middle Name</label>
-					<input type="text" class="form-control" name="middleName"
-						id="middleName" value="${middleName}">
-				</div>
-				<div class="form-group col-md-4">
-					<label for="lastName">Last Name *</label>
-					<input type="text" class="form-control" name="lastName"
-						id="lastName" value="${lastName}">
-				</div>
-			</div>
-			<div class="form-row">
-				<div class="form-group col-md-6">
-					<label for="birthday">DOB *</label>
-					<input type="date" class="form-control" name="birthday"
-						id="birthday" placeholder="MM/DD/YYYY" value="${birthday}">
-				</div>
-			</div>
-			<div class="form-row">
-				<div class="form-group col-md-6">
 					<label for="ssn">SSN *</label>
 					<input type="text" class="form-control" name="ssn" id="ssn"
 						value="${ssn}">
+				</div>
+
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					<label for="first">First Name *</label>
+					<input type="text" class="form-control" name="first"
+						id="first" value="${first}">
+				</div>
+				<div class="form-group col-md-4">
+					<label for="middle">Middle Name</label>
+					<input type="text" class="form-control" name="middle"
+						id="middle" value="${middle}">
+				</div>
+				<div class="form-group col-md-4">
+					<label for="last">Last Name *</label>
+					<input type="text" class="form-control" name="last"
+						id="last" value="${last}">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					<label for="dob">DOB *</label>
+					<input type="date" class="form-control" name="dob"
+						id="dob" placeholder="MM/DD/YYYY" value="${dob}">
 				</div>
 				<div class="form-group col-md-2">
 					<label for="sex">Sex *</label>
@@ -179,20 +180,23 @@
 					<select name="insuranceName" id="insuranceName"
 						class="form-control">
 						<option value="Anthem HMO"
-							${ 'Anthem HMO' eq insuranceName ? 'selected' : ''}>Anthem HMO</option>
-						<option value="Anthem HSA"
-							${ 'Anthem HSA' eq insuranceName ? 'selected' : ''}>Anthem HSA</option>
-						<option value="Anthem PPO"
-							${ 'Anthem PPO' eq insuranceName ? 'selected' : ''}>Anthem PPO</option>
-						<option value="Blue Cross HMO"
-							${ 'Blue Cross HMO' eq insuranceName ? 'selected' : ''}>Blue Cross
+							${ 'Anthem HMO' eq insuranceName ? 'selected' : ''}>Anthem
 							HMO</option>
-						<option value="Blue Cross HSA"
-							${ 'Blue Cross HSA' eq insuranceName ? 'selected' : ''}>Blue Cross
+						<option value="Anthem HSA"
+							${ 'Anthem HSA' eq insuranceName ? 'selected' : ''}>Anthem
 							HSA</option>
-						<option value="Blue Cross PPO"
-							${ 'Blue Cross PPO' eq insuranceName ? 'selected' : ''}>Blue Cross
+						<option value="Anthem PPO"
+							${ 'Anthem PPO' eq insuranceName ? 'selected' : ''}>Anthem
 							PPO</option>
+						<option value="Blue Cross HMO"
+							${ 'Blue Cross HMO' eq insuranceName ? 'selected' : ''}>Blue
+							Cross HMO</option>
+						<option value="Blue Cross HSA"
+							${ 'Blue Cross HSA' eq insuranceName ? 'selected' : ''}>Blue
+							Cross HSA</option>
+						<option value="Blue Cross PPO"
+							${ 'Blue Cross PPO' eq insuranceName ? 'selected' : ''}>Blue
+							Cross PPO</option>
 						<option value="Kaiser Permanente HMO"
 							${ 'Kaiser Permanente HMO' eq insuranceName ? 'selected' : ''}>Kaiser
 							Permanente HMO</option>
@@ -216,13 +220,13 @@
 			<div class="form-row">
 				<div class="form-group col-md-3">
 					<label for="insuranceID">ID *</label>
-					<input type="text" class="form-control" name="insuranceID"
-						id="insuranceID" value="${insuranceID}">
+					<input type="text" class="form-control" name="insuranceId"
+						id="insuranceId" value="${insuranceId}">
 				</div>
 				<div class="form-group col-md-3">
-					<label for="insuranceGroup">Group ID</label>
-					<input type="text" class="form-control" name="insuranceGroup"
-						id="insuranceGroup" value="${insuranceGroup}">
+					<label for="insuranceGroupNumber">Group ID</label>
+					<input type="text" class="form-control" name="insuranceGroupNumber"
+						id="insuranceGroupNumber" value="${insuranceGroupNumber}">
 				</div>
 				<div class="form-group col-md-3">
 					<label for="insuranceCopay">Copay</label>
@@ -232,10 +236,10 @@
 			</div>
 			<div class="form-row">
 				<div class="form-group col-md-6">
-					<label for="effectiveDate">Effective Date *</label>
-					<input type="date" class="form-control" name="effectiveDate"
-						id="effectiveDate" placeholder="MM/DD/YYYY"
-						value="${effectiveDate}">
+					<label for="insuranceEffectiveDate">Effective Date *</label>
+					<input type="date" class="form-control" name="insuranceEffectiveDate"
+						id="insuranceEffectiveDate" placeholder="MM/DD/YYYY"
+						value="${insuranceEffectiveDate}">
 				</div>
 			</div>
 			<p>

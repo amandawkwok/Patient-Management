@@ -8,8 +8,8 @@
 	<nav class="navbar navbar-light bg-light justify-content-between">
 		<a class="navbar-brand" href="index.jsp"> <img
 			src="https://image.flaticon.com/icons/svg/149/149423.svg" alt="logo"
-			style="width: 30px;"> &nbsp;&nbsp;&nbsp; Viewing <strong>${firstName}
-				${lastName}</strong>
+			style="width: 30px;"> &nbsp;&nbsp;&nbsp; Viewing <strong>${first}
+				${last}</strong>
 		</a>
 		<form class="form-inline" method="get" action="ViewPatients">
 			<button type="submit" class="btn btn-warning">View All
@@ -24,23 +24,23 @@
 		</h4>
 		<div class="form-row">
 			<div class="form-group col-md-4">
-				<b>First Name: </b> ${firstName}
-			</div>
-			<div class="form-group col-md-4">
-				<b>Middle Name: </b> ${middleName}
-			</div>
-			<div class="form-group col-md-4">
-				<b>Last Name: </b> ${lastName}
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="form-group col-md-6">
-				<b>Birthday: </b> ${birthday}
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="form-group col-md-6">
 				<b>SSN: </b> ${ssn}
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-4">
+				<b>First Name: </b> ${first}
+			</div>
+			<div class="form-group col-md-4">
+				<b>Middle Name: </b> ${middle}
+			</div>
+			<div class="form-group col-md-4">
+				<b>Last Name: </b> ${last}
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-4">
+				<b>Birthday: </b> ${dob}
 			</div>
 			<div class="form-group col-md-2">
 				<b>Sex: </b> ${sex}
@@ -76,13 +76,13 @@
 			<b>CONTACT</b>
 		</h4>
 		<div class="form-row">
-			<div class="form-group col-md-3">
+			<div class="form-group col-md-4">
 				<b>Cell: </b> ${cellPhone}
 			</div>
-			<div class="form-group col-md-3">
+			<div class="form-group col-md-4">
 				<b>Home: </b> ${homePhone}
 			</div>
-			<div class="form-group col-md-3">
+			<div class="form-group col-md-4">
 				<b>Work: </b> ${workPhone}
 			</div>
 
@@ -99,13 +99,13 @@
 			<b>EMERGENCY CONTACT</b>
 		</h4>
 		<div class="form-row">
-			<div class="form-group col-md-3">
+			<div class="form-group col-md-4">
 				<b>Name: </b> ${emergencyName}
 			</div>
-			<div class="form-group col-md-3">
+			<div class="form-group col-md-4">
 				<b>Relationship: </b> ${emergencyRelationship}
 			</div>
-			<div class="form-group col-md-3">
+			<div class="form-group col-md-4">
 				<b>Phone Number: </b> ${emergencyNumber}
 			</div>
 		</div>
@@ -127,32 +127,32 @@
 
 		</div>
 		<div class="form-row">
-			<div class="form-group col-md-3">
-				<b>ID: </b> ${insuranceID}
+			<div class="form-group col-md-4">
+				<b>ID: </b> ${insuranceId}
 			</div>
-			<div class="form-group col-md-3">
-				<b>Group: </b> ${insuranceGroup}
+			<div class="form-group col-md-4">
+				<b>Group: </b> ${insuranceGroupNumber}
 			</div>
-			<div class="form-group col-md-3">
+			<div class="form-group col-md-4">
 				<b>Copay: </b> ${insuranceCopay}
 			</div>
 		</div>
 		<div class="form-row">
 			<div class="form-group col-md-6">
-				<b>Effective Date: </b> ${effectiveDate}
+				<b>Effective Date: </b> ${insuranceEffectiveDate}
 			</div>
 		</div>
 		<p>
 		<div class="form-row">
-			<div class="form-group col-md-3">
+			<div class="form-group col-md-4">
 
 				<b>Policy Holder Name: </b> ${policyHolderName}
 			</div>
-			<div class="form-group col-md-3">
+			<div class="form-group col-md-4">
 
 				<b>Policy Holder SSN: </b> ${policyHolderSSN}
 			</div>
-			<div class="form-group col-md-6">
+			<div class="form-group col-md-4">
 				<b>Policy Holder Birthday: </b> ${policyHolderBirthday}
 			</div>
 		</div>

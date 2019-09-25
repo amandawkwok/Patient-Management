@@ -13,11 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import entity.Address;
 import entity.Appointment;
-import entity.Contact;
-import entity.EmergencyContact;
-import entity.Insurance;
 import entity.Patient;
 import helper.DateHelper;
 import helper.PatientFormHelper;
@@ -68,8 +64,7 @@ public class ModifyPatient extends HttpServlet {
 				long newPrimaryKeyNumeric = Long.parseLong(newPrimaryKey);
 
 				// Retrieve patient information
-				Map<String, String> patientInformation = PatientFormHelper
-						.getFormFieldDatabasePairsBySSN(newPrimaryKeyNumeric);
+				Map<String, String> patientInformation = Patient.getAttributeValuePairsBySSN(newPrimaryKeyNumeric);
 				for (Map.Entry<String, String> field : patientInformation.entrySet()) {
 					request.setAttribute(field.getKey(), field.getValue());
 				}
@@ -101,8 +96,7 @@ public class ModifyPatient extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String primaryKey = request.getParameter("primaryKey");
 
-		Map<String, String> patientInformation = PatientFormHelper
-				.getFormFieldDatabasePairsBySSN(Long.parseLong(primaryKey));
+		Map<String, String> patientInformation = Patient.getAttributeValuePairsBySSN(Long.parseLong(primaryKey));
 
 		for (Map.Entry<String, String> field : patientInformation.entrySet()) {
 			request.setAttribute(field.getKey(), field.getValue());
@@ -119,14 +113,6 @@ public class ModifyPatient extends HttpServlet {
 		try {
 			long ssn = Long.parseLong(lhm.get("ssn"));
 
-			// Patient
-			Patient.add(ssn, lhm.get("firstName"), lhm.get("middleName"), lhm.get("lastName"),
-					DateHelper.convertToSQLDate(lhm.get("birthday")), lhm.get("sex"));
-
-			// Address
-			Address.add(ssn, lhm.get("address1"), lhm.get("address2"), lhm.get("city"), lhm.get("state"),
-					Integer.parseInt(lhm.get("zip")));
-			// Contact
 			try {
 				homePhone = Long.parseLong(lhm.get("homePhone"));
 			} catch (Exception e) {
@@ -139,13 +125,6 @@ public class ModifyPatient extends HttpServlet {
 				workPhone = java.sql.Types.BIGINT;
 			}
 
-			Contact.add(ssn, Long.parseLong(lhm.get("cellPhone")), homePhone, workPhone, lhm.get("email"));
-
-			// Emergency Contact
-			EmergencyContact.add(ssn, lhm.get("emergencyName"), lhm.get("emergencyRelationship"),
-					Long.parseLong(lhm.get("emergencyNumber")));
-
-			// Insurance
 			try {
 				copay = Long.parseLong(lhm.get("insuranceCopay"));
 			} catch (Exception e) {
@@ -158,10 +137,16 @@ public class ModifyPatient extends HttpServlet {
 				policyHolderSSN = java.sql.Types.BIGINT;
 			}
 
-			Insurance.add(ssn, lhm.get("insuranceName"), lhm.get("insuranceAddress"), lhm.get("insuranceID"),
-					lhm.get("insuranceGroup"), copay, DateHelper.convertToSQLDate(lhm.get("effectiveDate")),
-					lhm.get("policyHolderName"), policyHolderSSN,
-					DateHelper.convertToSQLDate(lhm.get("policyHolderBirthday")));
+			Patient.add(ssn, lhm.get("first"), lhm.get("middle"), lhm.get("last"),
+					DateHelper.convertToSQLDate(lhm.get("dob")), lhm.get("sex"), lhm.get("address1"),
+					lhm.get("address2"), lhm.get("city"), lhm.get("state"), Integer.parseInt(lhm.get("zip")),
+					Long.parseLong(lhm.get("cellPhone")), homePhone, workPhone, lhm.get("email"),
+					lhm.get("emergencyName"), lhm.get("emergencyRelationship"),
+					Long.parseLong(lhm.get("emergencyNumber")), lhm.get("insuranceName"), lhm.get("insuranceAddress"),
+					lhm.get("insuranceId"), lhm.get("insuranceGroupNumber"), copay,
+					DateHelper.convertToSQLDate(lhm.get("insuranceEffectiveDate")), lhm.get("policyHolderName"),
+					policyHolderSSN, DateHelper.convertToSQLDate(lhm.get("policyHolderBirthday")));
+
 		} catch (Exception e) {
 			System.out.println(e.getStackTrace());
 		}
@@ -170,11 +155,6 @@ public class ModifyPatient extends HttpServlet {
 	private void _editPatient(long oldSSN, LinkedHashMap<String, String> lhm) {
 		long homePhone, workPhone, copay, policyHolderSSN;
 		try {
-			// Address
-			Address.update(oldSSN, lhm.get("address1"), lhm.get("address2"), lhm.get("city"), lhm.get("state"),
-					Integer.parseInt(lhm.get("zip")));
-
-			// Contact
 			try {
 				homePhone = Long.parseLong(lhm.get("homePhone"));
 			} catch (Exception e) {
@@ -187,13 +167,6 @@ public class ModifyPatient extends HttpServlet {
 				workPhone = java.sql.Types.BIGINT;
 			}
 
-			Contact.update(oldSSN, Long.parseLong(lhm.get("cellPhone")), homePhone, workPhone, lhm.get("email"));
-
-			// Emergency Contact
-			EmergencyContact.update(oldSSN, lhm.get("emergencyName"), lhm.get("emergencyRelationship"),
-					Long.parseLong(lhm.get("emergencyNumber")));
-
-			// Insurance
 			try {
 				copay = Long.parseLong(lhm.get("insuranceCopay"));
 			} catch (Exception e) {
@@ -206,16 +179,17 @@ public class ModifyPatient extends HttpServlet {
 				policyHolderSSN = java.sql.Types.BIGINT;
 			}
 
-			Insurance.update(oldSSN, lhm.get("insuranceName"), lhm.get("insuranceAddress"), lhm.get("insuranceID"),
-					lhm.get("insuranceGroup"), copay, DateHelper.convertToSQLDate(lhm.get("effectiveDate")),
-					lhm.get("policyHolderName"), policyHolderSSN,
-					DateHelper.convertToSQLDate(lhm.get("policyHolderBirthday")));
-
-			// Patient
-			Patient.update(oldSSN, Long.parseLong(lhm.get("ssn")), lhm.get("firstName"), lhm.get("middleName"),
-					lhm.get("lastName"), DateHelper.convertToSQLDate(lhm.get("birthday")), lhm.get("sex"));
+			Patient.update(oldSSN, Long.parseLong(lhm.get("ssn")), lhm.get("first"), lhm.get("middle"), lhm.get("last"),
+					DateHelper.convertToSQLDate(lhm.get("dob")), lhm.get("sex"), lhm.get("address1"),
+					lhm.get("address2"), lhm.get("city"), lhm.get("state"), Integer.parseInt(lhm.get("zip")),
+					Long.parseLong(lhm.get("cellPhone")), homePhone, workPhone, lhm.get("email"),
+					lhm.get("emergencyName"), lhm.get("emergencyRelationship"),
+					Long.parseLong(lhm.get("emergencyNumber")), lhm.get("insuranceName"), lhm.get("insuranceAddress"),
+					lhm.get("insuranceId"), lhm.get("insuranceGroupNumber"), copay,
+					DateHelper.convertToSQLDate(lhm.get("insuranceEffectiveDate")), lhm.get("policyHolderName"),
+					policyHolderSSN, DateHelper.convertToSQLDate(lhm.get("policyHolderBirthday")));
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
+			System.out.println(e);
 		}
 	}
 }
