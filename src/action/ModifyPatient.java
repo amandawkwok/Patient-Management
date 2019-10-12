@@ -78,6 +78,7 @@ public class ModifyPatient extends HttpServlet {
 				request.setAttribute("primaryKey", newPrimaryKeyNumeric);
 				request.setAttribute("upcomingAppts", upcomingAppts);
 				request.setAttribute("pastAppts", pastAppts);
+				request.setAttribute("bannerMessage", "Success! Patient has been updated.");
 
 				request.getRequestDispatcher("view_patient.jsp").include(request, response);
 			} else {
@@ -85,6 +86,7 @@ public class ModifyPatient extends HttpServlet {
 
 				// forward to view_patients.jsp to view all patients
 				RequestDispatcher rd = request.getRequestDispatcher("ViewPatients");
+				request.setAttribute("bannerMessage", "Success! Patient has been added.");
 				rd.forward(request, response);
 			}
 		}

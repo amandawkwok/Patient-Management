@@ -31,6 +31,16 @@ div.b {
 		</form>
 	</nav>
 
+	<c:if test="${not empty bannerMessage}">
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			${bannerMessage}
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	</c:if>
+	
 	<h4>&nbsp;&nbsp;${searchHeader}</h4>
 
 	<table class="table">

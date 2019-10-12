@@ -26,6 +26,7 @@ public class DeletePatient extends HttpServlet {
 		}
 
 		RequestDispatcher rd = request.getRequestDispatcher("ViewPatients");
+		request.setAttribute("bannerMessage", "Success! Patient has been deleted.");
 		rd.forward(request, response);
 	}
 }

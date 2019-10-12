@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>${param.pageHeader}Patient</title>
+<title>${param.pageHeader} Patient</title>
 </head>
 <body>
 	<nav class="navbar navbar-light bg-light justify-content-between">
@@ -21,7 +21,7 @@
 					<strong>Error!</strong>
 					<c:forEach items="${errorMessages}" var="error">
 						<br>${error}
-				</c:forEach>
+					</c:forEach>
 					<button type="button" class="close" data-dismiss="alert"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
