@@ -62,7 +62,7 @@
 			<div class="form-row">
 				<div class="form-group col-md-4">
 					<label for="dob">DOB *</label>
-					<input type="date" class="form-control" name="dob"
+					<input type="text" class="form-control" name="dob"
 						id="dob" placeholder="MM/DD/YYYY" value="${dob}">
 				</div>
 				<div class="form-group col-md-2">
@@ -237,7 +237,7 @@
 			<div class="form-row">
 				<div class="form-group col-md-6">
 					<label for="insuranceEffectiveDate">Effective Date *</label>
-					<input type="date" class="form-control" name="insuranceEffectiveDate"
+					<input type="text" class="form-control" name="insuranceEffectiveDate"
 						id="insuranceEffectiveDate" placeholder="MM/DD/YYYY"
 						value="${insuranceEffectiveDate}">
 				</div>
