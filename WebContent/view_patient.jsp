@@ -226,8 +226,12 @@
 			</tbody>
 		</table>
 
-		<form class="form-inline">
-			<input type="hidden" name="primaryKey" value="${ssn}" />
+		<form class="form-inline" action="appointment_form.jsp">
+			<input type="hidden" name="pageHeader" value="Add">
+			<input type="hidden" name="first" value="${first}">
+			<input type="hidden" name="middle" value="${middle}">
+			<input type="hidden" name="last" value="${last}">
+			<input type="hidden" name="primaryKey" value="${ssn}">
 			<button type="submit" class="btn btn-warning">Create New
 				Appointment</button>
 		</form>

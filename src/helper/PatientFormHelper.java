@@ -53,7 +53,6 @@ public class PatientFormHelper {
 		if (Validator.isNull(lhm.get("cellPhone")) || !Validator.isValidNumeric(lhm.get("cellPhone"))) {
 			errors.add("Cell phone number is not valid.");
 		}
-
 		if (!lhm.get("homePhone").equals("") && !Validator.isValidNumeric(lhm.get("homePhone"))) {
 			errors.add("Home phone number is not valid.");
 		}

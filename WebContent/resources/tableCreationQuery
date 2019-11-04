@@ -63,6 +63,7 @@ Appointment
 CREATE TABLE schema.`Appointment` (
   `ssn` bigint(20) DEFAULT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date DEFAULT NULL,
   `dayTime` datetime DEFAULT NULL,
   `status` varchar(45) DEFAULT NULL,
   `reason` varchar(45) DEFAULT NULL,
