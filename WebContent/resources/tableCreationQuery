@@ -1,62 +1,34 @@
 You may need to prepend table names with schema name
-Patients 
-CREATE TABLE `Patient` (
+Patient
+CREATE TABLE schema.`Patient` (
   `ssn` bigint(20) NOT NULL,
   `first` varchar(45) DEFAULT NULL,
   `middle` varchar(45) DEFAULT NULL,
   `last` varchar(45) DEFAULT NULL,
   `dob` date DEFAULT NULL,
   `sex` varchar(3) DEFAULT NULL,
-  PRIMARY KEY (`ssn`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
-
-Address
-CREATE TABLE schema.`Address` (
-  `ssn` bigint(20) DEFAULT NULL,
   `address1` varchar(45) DEFAULT NULL,
   `address2` varchar(45) DEFAULT NULL,
   `city` varchar(45) DEFAULT NULL,
   `state` varchar(2) DEFAULT NULL,
   `zip` int(11) DEFAULT NULL,
-  KEY `ssn_idx` (`ssn`),
-  CONSTRAINT `fk_address_ssn` FOREIGN KEY (`ssn`) REFERENCES `patient` (`ssn`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
-
-Contact
-CREATE TABLE schema.`Contact` (
-  `ssn` bigint(20) DEFAULT NULL,
-  `cell` bigint(20) DEFAULT NULL,
-  `home` bigint(20) DEFAULT NULL,
-  `work` bigint(20) DEFAULT NULL,
+  `cellPhone` bigint(20) DEFAULT NULL,
+  `homePhone` bigint(20) DEFAULT NULL,
+  `workPhone` bigint(20) DEFAULT NULL,
   `email` varchar(30) DEFAULT NULL,
-  KEY `ssn_idx` (`ssn`),
-  CONSTRAINT `fk_contact_ssn` FOREIGN KEY (`ssn`) REFERENCES `patient` (`ssn`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
-
-Emergency_Contact
-CREATE TABLE schema.`Emergency_Contact` (
-  `ssn` bigint(20) DEFAULT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  `relationship` varchar(45) DEFAULT NULL,
-  `number` bigint(10) DEFAULT NULL,
-  KEY `fk_emergency_ssn` (`ssn`),
-  CONSTRAINT `fk_emergency_ssn` FOREIGN KEY (`ssn`) REFERENCES `patient` (`ssn`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
-
-Insurance
-CREATE TABLE schema.`Insurance` (
-  `ssn` bigint(20) DEFAULT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  `address` varchar(45) DEFAULT NULL,
-  `id` varchar(45) DEFAULT NULL,
-  `groupNum` varchar(45) DEFAULT NULL,
-  `copay` int(11) DEFAULT NULL,
-  `effectiveDate` date DEFAULT NULL,
+  `emergencyName` varchar(45) DEFAULT NULL,
+  `emergencyRelationship` varchar(45) DEFAULT NULL,
+  `emergencyNumber` bigint(10) DEFAULT NULL,
+  `insuranceName` varchar(45) DEFAULT NULL,
+  `insuranceAddress` varchar(45) DEFAULT NULL,
+  `insuranceId` varchar(45) DEFAULT NULL,
+  `insuranceGroupNumber` varchar(45) DEFAULT NULL,
+  `insuranceCopay` int(11) DEFAULT NULL,
+  `insuranceEffectiveDate` date DEFAULT NULL,
   `policyHolderName` varchar(45) DEFAULT NULL,
   `policyHolderSSN` bigint(20) DEFAULT NULL,
   `policyHolderBirthday` date DEFAULT NULL,
-  KEY `fk_insurance_ssn` (`ssn`),
-  CONSTRAINT `fk_insurance_ssn` FOREIGN KEY (`ssn`) REFERENCES `patient` (`ssn`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `fk_insurance_ssn` (`ssn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
 Appointment
