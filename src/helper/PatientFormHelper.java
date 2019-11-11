@@ -16,7 +16,7 @@ public class PatientFormHelper {
 		// PATIENT
 		String ssn = lhm.get("ssn");
 
-		if (Validator.isNull(ssn) || !Validator.isValidNumeric(ssn) || String.valueOf(ssn).length() != 10) {
+		if (Validator.isNull(ssn) || !Validator.isValidNumeric(ssn) || String.valueOf(ssn).length() != 9) {
 			errors.add("Patient SSN must be a 10 digit number.");
 		} else {
 			if (Patient.exists(Long.parseLong(ssn)) && primaryKey != Long.parseLong(ssn)) {
