@@ -28,7 +28,6 @@
 				</div>
 			</c:if>
 			
-			
 			<!-- APPOINTMENT INFORMATION -->
 			<h4>
 				<b>APPOINTMENT INFORMATION</b>

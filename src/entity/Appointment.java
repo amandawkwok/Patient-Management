@@ -27,9 +27,7 @@ public class Appointment {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(ConnectionCredentials.URL, ConnectionCredentials.USERNAME,
 					ConnectionCredentials.PASSWORD);
-//			stmt = conn.prepareStatement(
-//					"INSERT INTO Appointment VALUES (?, ?, ?, ?)", 
-//					Statement.RETURN_GENERATED_KEYS);
+
 			stmt = conn.prepareStatement(
 					"INSERT INTO Appointment "
 					+ "(Appointment.ssn, Appointment.dayTime, " 
@@ -46,22 +44,10 @@ public class Appointment {
 	        if (affectedRows == 0) {
 	            throw new SQLException("Creating appointment failed, no rows affected.");
 	        }
-
-//	        try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-//	            if (generatedKeys.next()) {
-//	                setId(generatedKeys.getInt(1));
-//	            }
-//	            else {
-//	                throw new SQLException("Creating user failed, no ID obtained.");
-//	            }
-//	        }
-			
 			conn.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
-		//return getId();
 	}
 	
 	public static void delete(int id) throws ClassNotFoundException {
@@ -184,7 +170,6 @@ public class Appointment {
 			conn = DriverManager.getConnection(ConnectionCredentials.URL, ConnectionCredentials.USERNAME,
 					ConnectionCredentials.PASSWORD);
 
-			//String query = "SELECT TIME_FORMAT(dayTime, \"%h:%i %p\"), DATE_FORMAT(dob, \"%m/%d/%Y\"), reason, id FROM Appointment WHERE ssn = ? AND ";
 			String query = "SELECT DATE_FORMAT(dayTime, \"%m/%d/%Y %h:%i %p\"), reason, id FROM Appointment WHERE ssn = ? AND ";
 
 			if (timePeriod.equals("upcoming")) {
@@ -252,22 +237,6 @@ public class Appointment {
 			}
 			rs.close();
 			conn.close();
-			
-			/**
-			 * ResultSet rs = stmt.executeQuery();
-				ResultSetMetaData rsMeta = rs.getMetaData();
-				int columnCount = rsMeta.getColumnCount();
-
-				while (rs.next()) {
-					for (int col = 1; col <= columnCount; col++) {
-						appointment.add(rs.getString(col));
-				}
-			}
-			 */
-			
-			
-			
-			
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -294,31 +263,12 @@ public class Appointment {
 	            throw new SQLException("Creating user failed, no rows affected.");
 	        }
 
-//	        try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-//	            if (generatedKeys.next()) {
-//	                setId(generatedKeys.getInt(1));
-//	            }
-//	            else {
-//	                throw new SQLException("Creating user failed, no ID obtained.");
-//	            }
-//	        }
 			conn.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-
-//		return getId();
 	}
-	
-//	private static void setId(int id) {
-//		apptId = id;
-//	}
-//	
-//	private static int getId() {
-//		return apptId;
-//	}
-	
+
 	private static Connection conn;
 	private static PreparedStatement stmt;
-	//private static int apptId;
 }

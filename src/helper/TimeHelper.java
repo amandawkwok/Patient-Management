@@ -34,5 +34,4 @@ public class TimeHelper {
 		}
 		return isTime;
 	}
-	
 }

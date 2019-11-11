@@ -17,10 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import entity.Appointment;
 import entity.Patient;
 import helper.AppointmentFormHelper;
-//import helper.DateHelper;
-//import helper.PatientFormHelper;
 import helper.TimeHelper;
-//import helper.Validator;
 
 @WebServlet("/ModifyAppointment")
 public class ModifyAppointment extends HttpServlet{
@@ -40,11 +37,6 @@ public class ModifyAppointment extends HttpServlet{
 		request.setAttribute("dayTime", dayTime);
 		System.out.println("\ndayTime: " + request.getAttribute("dayTime") + "\n"); 
 		System.out.println("ssn: " + postSSN + "\n");
-		
-//		Timestamp dayTime = TimeHelper.convertToSQLDateTime(date, time);
-//		request.setAttribute("dayTime", dayTime);
-//		System.out.println("dayTime: " + request.getAttribute("dayTime") + "\n");
-		
 			
 		LinkedHashMap<String, String> lhm = AppointmentFormHelper.getFormFieldInputPairs(request);
 		
@@ -71,10 +63,7 @@ public class ModifyAppointment extends HttpServlet{
 			for (Map.Entry<String, String> field : patientName.entrySet()) {
 				request.setAttribute(field.getKey(), field.getValue());
 			}
-//			request.setAttribute("date", date);
-//			System.out.println("modifyDate: " + request.getAttribute("date"));
-//			request.setAttribute("time", time);
-//			System.out.println("modifyTime: " + request.getAttribute("time"));
+
 			for (String key : lhm.keySet()) {
 				String value = lhm.get(key);
 				System.out.println("key: " + key + " , " + "value: " + value);
@@ -83,21 +72,16 @@ public class ModifyAppointment extends HttpServlet{
 			request.setAttribute("date", date);
 			request.setAttribute("time", time);
 			
-			
 			request.setAttribute("pageHeader", pageHeader);
 			request.setAttribute("errorMessages", errorMessages);
 			request.getRequestDispatcher("appointment_form.jsp").include(request, response);
-		}
-		else {
+		} else {
 			// if edit appointment is successful, forward to view_patient.jsp to
 			// review updates
 			if (pageHeader.contentEquals("Edit")) {
 				editAppointment(lhm);
-
-				
 				
 				long patSSNLong = postSSN;
-				System.out.println("dogetSSN : " + postSSN);
 				
 				// Retrieve patient information
 				Map<String, String> patientInformation = Patient.getAttributeValuePairsBySSN(patSSNLong);
@@ -118,8 +102,7 @@ public class ModifyAppointment extends HttpServlet{
 				RequestDispatcher rd = request.getRequestDispatcher("view_patient.jsp");
 				request.setAttribute("bannerMessage", "Success! Appointment has been updated.");
 				rd.include(request, response);
-			}
-			else {
+			} else {
 				addAppointment(lhm);
 
 				String patientSSN = lhm.get("ssn");
@@ -153,10 +136,6 @@ public class ModifyAppointment extends HttpServlet{
 	 * Retrieves appointment information to be loaded into appointment_form.jsp 
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//String ssn = request.getParameter("ssn");
-//		String date = request.getParameter("date");
-//		String time = request.getParameter("time");
-		//System.out.println(dayTime);
 		String pageHeader = request.getParameter("pageHeader");
 		
 		if (pageHeader.contentEquals("Edit")) {
@@ -195,7 +174,6 @@ public class ModifyAppointment extends HttpServlet{
 			request.setAttribute("pageHeader", "Edit");
 			
 			request.getRequestDispatcher("appointment_form.jsp").include(request, response);
-			//request.getRequestDispatcher("appointment_form.jsp").forward(request, response);
 		}
 		else if (pageHeader.contentEquals("Add")) {
 			long ssn = Long.parseLong(request.getParameter("ssn"));

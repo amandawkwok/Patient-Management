@@ -16,7 +16,6 @@ public class AppointmentFormHelper {
 		String[] dayAndTime = lhm.get("dayTime").split(" ");
 		String date = dayAndTime[0];
 		String time = dayAndTime[1] + " " + dayAndTime[2];
-		//String time = dayAndTime[1];
 		System.out.println("date: " + date);
 		System.out.println("time: " + time);
 		
