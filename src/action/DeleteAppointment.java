@@ -29,4 +29,4 @@ public class DeleteAppointment extends HttpServlet {
 		request.setAttribute("bannerMessage", "Success! Appointment has been deleted.");
 		rd.forward(request, response);
 	}
-}
+}//Test
