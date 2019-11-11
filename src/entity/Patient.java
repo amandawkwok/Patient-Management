@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+//import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -240,6 +241,7 @@ public class Patient {
 						subList.add("<form method=\"post\" action=\"ViewPatients\"> "
 								+ "<input type=\"hidden\" name=\"primaryKey\" value=\"" + rs.getString(col + 1) + "\">"
 								+ "<input type=\"submit\" value=\"View\" class=\"btn btn-info\"></form>");
+						//System.out.println(rs.getString(col + 1));
 					}
 				}
 				aList.add(subList);

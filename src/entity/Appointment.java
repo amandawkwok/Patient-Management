@@ -1,13 +1,16 @@
 package entity;
 
 import java.sql.Connection;
-import java.sql.Date;
+//import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
+//import java.sql.Statement;
+//import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,40 +19,58 @@ import java.util.Map;
 import helper.ConnectionCredentials;
 
 public class Appointment {
-
-	public static void add(long id, String first, String middle, String last, Date date, Time dayTime,
-							String status, String reason) throws ClassNotFoundException{
+	
+	
+	public static void add(long ssn, Timestamp dayTime, String status, 
+			String reason) throws ClassNotFoundException, SQLException{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(ConnectionCredentials.URL, ConnectionCredentials.USERNAME,
 					ConnectionCredentials.PASSWORD);
+//			stmt = conn.prepareStatement(
+//					"INSERT INTO Appointment VALUES (?, ?, ?, ?)", 
+//					Statement.RETURN_GENERATED_KEYS);
 			stmt = conn.prepareStatement(
-					"INSERT INTO Appointment VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO Appointment "
+					+ "(Appointment.ssn, Appointment.dayTime, " 
+					+ "Appointment.status, Appointment.reason) "
+					+ "VALUES (?, ?, ?, ?)", 
+					Statement.RETURN_GENERATED_KEYS);
 			
-			stmt.setLong(1, id);
-			stmt.setString(2, first);
-			stmt.setString(3, middle);
-			stmt.setString(4, last);
-			stmt.setDate(5, date);
-			stmt.setTime(6, dayTime);
-			stmt.setString(7, status);
-			stmt.setString(8, reason);
+			stmt.setLong(1, ssn);
+			stmt.setTimestamp(2, dayTime);
+			stmt.setString(3, status);
+			stmt.setString(4, reason);
 			
-			stmt.executeUpdate();
+			int affectedRows = stmt.executeUpdate();
+	        if (affectedRows == 0) {
+	            throw new SQLException("Creating appointment failed, no rows affected.");
+	        }
+
+//	        try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+//	            if (generatedKeys.next()) {
+//	                setId(generatedKeys.getInt(1));
+//	            }
+//	            else {
+//	                throw new SQLException("Creating user failed, no ID obtained.");
+//	            }
+//	        }
+			
 			conn.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 		
+		//return getId();
 	}
 	
-	public static void delete(long id) throws ClassNotFoundException {
+	public static void delete(int id) throws ClassNotFoundException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(ConnectionCredentials.URL, ConnectionCredentials.USERNAME,
 					ConnectionCredentials.PASSWORD);
 			stmt = conn.prepareStatement("DELETE FROM Appointment WHERE id = ?");
-			stmt.setLong(1,  id);;
+			stmt.setInt(1, id);;
 			stmt.executeUpdate();
 			conn.close();
 			
@@ -58,14 +79,14 @@ public class Appointment {
 		}
 	}
 	
-	public static boolean exists(long id) {
+	public static boolean exists(int id) {
 		boolean exists = false;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(ConnectionCredentials.URL, ConnectionCredentials.USERNAME,
 					ConnectionCredentials.PASSWORD);
 			stmt = conn.prepareStatement("SELECT * FROM Appointment WHERE id = ?");
-			stmt.setLong(1, id);
+			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
@@ -79,7 +100,7 @@ public class Appointment {
 		return exists;
 	}	
 	
-	public static List<String> getById(long id) {
+	public static List<String> getById(int id) {
 		List<String> appointment = new ArrayList<String>();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -87,10 +108,10 @@ public class Appointment {
 					ConnectionCredentials.PASSWORD);
 
 			stmt = conn.prepareStatement(
-					"SELECT id, first, middle, last, DATE_FORMAT(date, \"%m/%d/%Y\"), " 
-							+ "TIME_FORMAT(dayTime, \"%h:%i %p\"), status, reason, "
-							+ "FROM Patient WHERE ssn = ?");
-			stmt.setLong(1, id);
+					"SELECT ssn, id, DATE_FORMAT(dayTime, \"%m/%d/%Y %h:%i %p\"), " 
+							+ "status, reason "
+							+ "FROM Appointment WHERE id = ?");
+			stmt.setInt(1, id);
 
 			ResultSet rs = stmt.executeQuery();
 			ResultSetMetaData rsMeta = rs.getMetaData();
@@ -139,7 +160,7 @@ public class Appointment {
 	 * Returns a key-value pairing of Appointment attributes with their respective
 	 * database values.
 	 */
-	public static Map<String, String> getAttributeValuePairsbyId(long id) {
+	public static Map<String, String> getAttributeValuePairsById(int id) {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		
 		List<String> attributes = getAttributeNames();
@@ -164,7 +185,7 @@ public class Appointment {
 					ConnectionCredentials.PASSWORD);
 
 			//String query = "SELECT TIME_FORMAT(dayTime, \"%h:%i %p\"), DATE_FORMAT(dob, \"%m/%d/%Y\"), reason, id FROM Appointment WHERE ssn = ? AND ";
-			String query = "SELECT TIME_FORMAT(dayTime, \"%h:%i %p\"), reason, id FROM Appointment WHERE ssn = ? AND ";
+			String query = "SELECT DATE_FORMAT(dayTime, \"%m/%d/%Y %h:%i %p\"), reason, id FROM Appointment WHERE ssn = ? AND ";
 
 			if (timePeriod.equals("upcoming")) {
 				query += "dayTime >= CURRENT_TIMESTAMP ORDER BY dayTime ASC";
@@ -184,7 +205,8 @@ public class Appointment {
 				subList = new ArrayList<String>();
 				for (int col = 1; col <= columnCount; col++) {
 					if (col == columnCount) {
-						subList.add("<form class=\"form-inline\" method=\"post\" action=\"ViewPatients\"> " 
+						subList.add("<form class=\"form-inline\" method=\"post\" action=\"ModifyAppointment\"> "
+								+ "<input type=\"hidden\" name=\"pageHeader\" value=\"Edit\"> "
 								+ "<input type=\"hidden\" name=\"appointmentID\" value=\""
 								+ rs.getString(col)
 								+ "\" /><button type=\"submit\" class=\"btn btn-primary\">Edit</button></form>");
@@ -207,35 +229,96 @@ public class Appointment {
 		return totalAppointments;
 	}
 
-	public static void update(long oldId, long id, String first, String middle, String last, Date date, Time dayTime,
-			String status, String reason) throws ClassNotFoundException {
+	public static List<String> getSSNFromId(int id) {
+		List<String> patientSSN = new ArrayList<String>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(ConnectionCredentials.URL, ConnectionCredentials.USERNAME,
+					ConnectionCredentials.PASSWORD);
+
+			stmt = conn.prepareStatement("SELECT P.SSN FROM Patient P INNER JOIN " 
+									   + "Appointment A ON P.SSN = A.SSN WHERE "
+									   + "A.ID = ?");
+			stmt.setInt(1, id);
+			
+			ResultSet rs = stmt.executeQuery();
+			ResultSetMetaData rsMeta = rs.getMetaData();
+			int columnCount = rsMeta.getColumnCount();
+			
+			while (rs.next()) {
+				for (int col = 1; col <= columnCount; col++) {
+					patientSSN.add(rs.getString(col));
+				}
+			}
+			rs.close();
+			conn.close();
+			
+			/**
+			 * ResultSet rs = stmt.executeQuery();
+				ResultSetMetaData rsMeta = rs.getMetaData();
+				int columnCount = rsMeta.getColumnCount();
+
+				while (rs.next()) {
+					for (int col = 1; col <= columnCount; col++) {
+						appointment.add(rs.getString(col));
+				}
+			}
+			 */
+			
+			
+			
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return patientSSN;
+	}
+	
+	public static void update(int id, Timestamp dayTime, String status, String reason) throws ClassNotFoundException {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(ConnectionCredentials.URL, ConnectionCredentials.USERNAME,
 				ConnectionCredentials.PASSWORD);
 			stmt = conn
-					.prepareStatement("UPDATE Appointment SET id = ?, first = ?, middle = ?, "
-									+ "last = ?, date = ?, dayTime = ?, status = ?, reason = ? "
-									+ "WHERE id = ?");
+					.prepareStatement("UPDATE Appointment SET dayTime = ?, status = ?, reason = ? "
+									+ "WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
 			
-			stmt.setLong(1, id);
-			stmt.setString(2, first);
-			stmt.setString(3, middle);
-			stmt.setString(4, last);
-			stmt.setDate(5, date);
-			stmt.setTime(6, dayTime);
-			stmt.setString(7, status);
-			stmt.setString(8, reason);
-			stmt.setLong(9, oldId);
+			stmt.setTimestamp(1, dayTime);
+			stmt.setString(2, status);
+			stmt.setString(3, reason);
+			stmt.setInt(4, id);
 			
-			stmt.executeUpdate();
+			int affectedRows = stmt.executeUpdate();
+	        if (affectedRows == 0) {
+	            throw new SQLException("Creating user failed, no rows affected.");
+	        }
+
+//	        try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+//	            if (generatedKeys.next()) {
+//	                setId(generatedKeys.getInt(1));
+//	            }
+//	            else {
+//	                throw new SQLException("Creating user failed, no ID obtained.");
+//	            }
+//	        }
 			conn.close();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 
+//		return getId();
 	}
+	
+//	private static void setId(int id) {
+//		apptId = id;
+//	}
+//	
+//	private static int getId() {
+//		return apptId;
+//	}
 	
 	private static Connection conn;
 	private static PreparedStatement stmt;
+	//private static int apptId;
 }

@@ -17,10 +17,10 @@ public class DeleteAppointment extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String id = request.getParameter("primaryKey");
+		String id = request.getParameter("appointmentID");
 
 		try {
-			Appointment.delete(Long.parseLong(id));
+			Appointment.delete(Integer.parseInt(id));
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}

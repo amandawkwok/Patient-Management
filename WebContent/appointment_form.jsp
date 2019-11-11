@@ -38,20 +38,20 @@
 				<div class="form-group col-md-4">
 					<label for="first">First Name *</label>
 					<input type="text" class="form-control" name="first"
-						id="first" placeholder="${param.first}" 
-						value="${param.first}" readonly>
+						id="first" placeholder="${first}" 
+						value="${first}" readonly>
 				</div>
 				<div class="form-group col-md-4">
 					<label for="middle">Middle Initial</label>
 					<input type="text" class="form-control" name="middle"
-						id="middle" placeholder="${param.middle}" 
-						value="${param.middle}" readonly>
+						id="middle" placeholder="${middle}" 
+						value="${middle}" readonly>
 				</div>
 				<div class="form-group col-md-4">
 					<label for="last">Last Name *</label>
 					<input type="text" class="form-control" name="last"
-						id="last" placeholder="${param.last}" 
-						value="${param.last}" readonly>
+						id="last" placeholder="${last}" 
+						value="${last}" readonly>
 				</div>
 			</div>
 			
@@ -65,19 +65,20 @@
 			
 			<div class="form-row">
 				<div class="form-group col-md-4">
-					<label for="dayTime">Time *</label>
-					<input type="text" class="form-control" name="dayTime"
-						id="dayTime" placeholder="HH:mm AM/PM" value="${dayTime}">
+					<label for="time">Time *</label>
+					<input type="text" class="form-control" name="time"
+						id="time" placeholder="HH:mm AM/PM" value="${time}">
 				</div>
 			</div>
+
 			
 			<div class="form-row">
 				<div class="form-group col-md-2">
 					<label for="status">Status *</label>
 					<select name="status" id="status" class="form-control">
+						<option value="Upcoming" ${ 'Upcoming' eq status ? 'selected' : ''}>Upcoming</option>
 						<option value="Completed" ${ 'Completed' eq status ? 'selected' : ''}>Completed</option>
 						<option value="Cancelled" ${ 'Cancelled' eq status ? 'selected' : ''}>Cancelled</option>
-						<option value="Upcoming" ${ 'Upcoming' eq status ? 'selected' : ''}>Upcoming</option>
 					</select>
 				</div>
 			</div>
@@ -92,22 +93,24 @@
 			
 			<button type="submit" class="btn btn-primary">Save</button>
 			<input type="hidden" name="pageHeader" value="${param.pageHeader}" />
-			<input type="hidden" name="primaryKey" value="${param.primaryKey}" />
+			<input type="hidden" name="ssn" value="${param.ssn}" />
 		</form>
 		
 		<c:choose>
 			<c:when test="${param.pageHeader eq 'Add'}">
-				<form class="form-inline" method="get" action="ViewAppointments">
+				<form class="form-inline" method="post" action="ViewPatients">
 					<button type="submit" class="btn btn-warning">Cancel</button>
+					<input type="hidden" name="primaryKey" value="${param.ssn}" />
 				</form>
 			</c:when>
 			<c:otherwise>
-				<form class="form-inline" method="post" action="ViewAppointments">
+				<form class="form-inline" method="post" action="ViewPatients">
 					<button type="submit" class="btn btn-warning">Cancel</button>
 					<input type="hidden" name="primaryKey" value="${primaryKey}" />
 				</form>
 			</c:otherwise>
 		</c:choose>
+		
 	</div>
 </body>
 </html>
