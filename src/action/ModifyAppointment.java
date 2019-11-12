@@ -35,8 +35,6 @@ public class ModifyAppointment extends HttpServlet{
 		String time = request.getParameter("time");
 		String dayTime = date + " " + time;
 		request.setAttribute("dayTime", dayTime);
-		System.out.println("\ndayTime: " + request.getAttribute("dayTime") + "\n"); 
-		System.out.println("ssn: " + postSSN + "\n");
 			
 		LinkedHashMap<String, String> lhm = AppointmentFormHelper.getFormFieldInputPairs(request);
 		
@@ -44,9 +42,6 @@ public class ModifyAppointment extends HttpServlet{
 			lhm.put("ssn", "" + postSSN);
 		}
 		
-		for (String key : lhm.keySet()) {
-	        System.out.println(lhm.get(key));
-	    }
 		List<String> errorMessages = AppointmentFormHelper.validateInput(request);
 		
 		if (errorMessages.size() != 0) {
@@ -66,7 +61,6 @@ public class ModifyAppointment extends HttpServlet{
 
 			for (String key : lhm.keySet()) {
 				String value = lhm.get(key);
-				System.out.println("key: " + key + " , " + "value: " + value);
 				request.setAttribute(key, value);
 		    }
 			request.setAttribute("date", date);
@@ -144,21 +138,16 @@ public class ModifyAppointment extends HttpServlet{
 			
 			List<String> patientSSN = Appointment.getSSNFromId(appointmentId);
 			long ssn = Long.parseLong(patientSSN.get(0));
-			System.out.println(ssn);
 			
 			Map<String, String> pat = Patient.getAttributeValuePairsBySSN(ssn);
 			for (Map.Entry<String, String> field : pat.entrySet()) {
 				request.setAttribute(field.getKey(), field.getValue());
-				//System.out.println(field.getKey() + " : " + field.getValue());
 			}
-			
-			System.out.println();
 			
 			Map<String, String> appt = Appointment.getAttributeValuePairsById(appointmentId);
 			
 			for (Map.Entry<String, String> field : appt.entrySet()) {
 				request.setAttribute(field.getKey(), field.getValue());
-				System.out.println(field.getKey() + " : " + field.getValue());
 			}
 			String dayTime = appt.get("dayTime");
 			String[] dayAndTime = dayTime.split(" ");
@@ -168,9 +157,8 @@ public class ModifyAppointment extends HttpServlet{
 			request.setAttribute("time", time);
 			request.setAttribute("primaryKey", ssn);
 			postSSN = ssn;
-			System.out.println("Post SSN : " + request.getAttribute("postSSN"));
-
 			postID = appointmentId;
+			
 			request.setAttribute("pageHeader", "Edit");
 			
 			request.getRequestDispatcher("appointment_form.jsp").include(request, response);
@@ -209,7 +197,6 @@ public class ModifyAppointment extends HttpServlet{
 			String dayTimeString = lhm.get("dayTime");
 			Timestamp dayTime = TimeHelper.convertToSQLDateTime(dayTimeString);
 			
-			//String idString = lhm.get("id");
 			int id = postID;
 			
 			Appointment.update(id, dayTime,	lhm.get("status"), lhm.get("reason"));
