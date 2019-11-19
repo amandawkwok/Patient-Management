@@ -163,86 +163,168 @@ public class Appointment {
 		return map;
 	}
 	
-	public static ArrayList<ArrayList<String>> getBySSNAndTimePeriod(long ssn, String timePeriod) {
-		ArrayList<ArrayList<String>> totalAppointments = new ArrayList<ArrayList<String>>();
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(ConnectionCredentials.URL, ConnectionCredentials.USERNAME,
-					ConnectionCredentials.PASSWORD);
-
-			String query = "SELECT DATE_FORMAT(dayTime, \"%m/%d/%Y %h:%i %p\"), reason, id FROM Appointment WHERE ssn = ? AND ";
-
-			if (timePeriod.equals("upcoming")) {
-				query += "dayTime >= CURRENT_TIMESTAMP ORDER BY dayTime ASC";
-			} else {
-				query += "dayTime < CURRENT_TIMESTAMP ORDER BY dayTime DESC";
-			}
-
-			stmt = conn.prepareStatement(query);
-			stmt.setLong(1, ssn);
-
-			ResultSet rs = stmt.executeQuery();
-			ResultSetMetaData rsMeta = rs.getMetaData();
-			int columnCount = rsMeta.getColumnCount();
-
-			ArrayList<String> subList = new ArrayList<String>();
-			while (rs.next()) {
-				subList = new ArrayList<String>();
-				for (int col = 1; col <= columnCount; col++) {
-					if (col == columnCount) {
-						subList.add("<form class=\"form-inline\" method=\"post\" action=\"ModifyAppointment\"> "
-								+ "<input type=\"hidden\" name=\"pageHeader\" value=\"Edit\"> "
-								+ "<input type=\"hidden\" name=\"appointmentID\" value=\""
-								+ rs.getString(col)
-								+ "\" /><button type=\"submit\" class=\"btn btn-primary\">Edit</button></form>");
-						subList.add("<form class=\"form-inline\" method=\"get\" action=\"DeleteAppointment\"> " 
-								+ "<input type=\"hidden\" name=\"appointmentID\" value=\""
-								+ rs.getString(col)
-								+ "\" /><button type=\"submit\" class=\"btn btn-danger\">Delete</button></form>");
-					} else {
-						subList.add(rs.getString(col));
-					}
-				}
-				totalAppointments.add(subList);
-			}
-			rs.close();
-			conn.close();
-		} catch (Exception e) {
-			System.out.println("error: " + e);
-			return new ArrayList<ArrayList<String>>();
-		}
-		return totalAppointments;
+        public static ArrayList<ArrayList<String>> getByFilter(String filterClause) {
+            ArrayList<ArrayList<String>> aList = new ArrayList<ArrayList<String>>();
+            
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection conn = DriverManager.getConnection(ConnectionCredentials.URL, ConnectionCredentials.USERNAME,
+                        ConnectionCredentials.PASSWORD);
+                Statement stmt = conn.createStatement();
+                
+                String query = "SELECT DATE_FORMAT(A.dayTime, \"%m/%d/%y %h:%i %p\"), P.first, P.Last, A.status, A.reason, A.id FROM Appointment A, Patient P WHERE A.SSN = P.SSN AND";
+                
+                if (filterClause.equals("Today")) { // fix
+                    query += " DATE(A.dayTime)=DATE(NOW()) ORDER BY A.dayTime ASC";
+                }
+                else if (filterClause.equals("Upcoming")) {
+                    query += " A.dayTime >= CURRENT_TIMESTAMP ORDER BY A.dayTime ASC";
+                }
+                else {
+                    // assume that filterClase = "Past"
+                    query += " A.dayTime < CURRENT_TIMESTAMP ORDER BY A.dayTime DESC";
+                }
+                
+                ResultSet rs = stmt.executeQuery(query);
+                ResultSetMetaData rsMeta = rs.getMetaData();
+                int columnCount = rsMeta.getColumnCount() - 1;
+                
+                while (rs.next()) {
+                    ArrayList<String> subList = new ArrayList<String>();
+                    
+                    for (int col = 1; col <= columnCount; col ++) {
+                        String columnValue = rs.getString(col);
+                        
+                        if (columnValue == null) {
+                            subList.add("");
+                        }
+                        else {
+                            subList.add(rs.getString(col));
+                        }
+                        
+                        if (col == columnCount) {
+                            subList.add("<form class=\"form-inline\"> "
+                                    + "<input type=\"hidden\" name=\"pageHeader\" value=\"Edit\"> "
+                                    + "<input type=\"hidden\" name=\"appointmentID\" value=\""
+                                    + rs.getString(col)
+                                    + "<input type=\"hidden\" name=\"primaryKey\" value=\""
+                                    + rs.getString(col)
+                                    + "\" /><button type=\"submit\" class=\"btn btn-primary\">Edit</button></form>");
+                            subList.add("<form class=\"form-inline\"> " 
+                                    + "<input type=\"hidden\" name=\"appointmentID\" value=\""
+                                    + rs.getString(col)
+                                    + "\" /><button type=\"submit\" class=\"btn btn-danger\">Delete</button></form>");
+                        }
+                        
+                    }
+                    aList.add(subList);
+                }
+                rs.close();
+                conn.close();
+            }
+            catch (Exception e) {
+                System.out.println(e);
+            }
+            return aList;
+        }
+        
+	public static ArrayList<ArrayList<String>> getBySSNAndTimePeriod(long ssn, String timePeriod) 
+        {
+            ArrayList<ArrayList<String>> totalAppointments = new ArrayList<ArrayList<String>>();
+            try 
+            {
+                Class.forName("com.mysql.jdbc.Driver");
+                conn = DriverManager.getConnection(ConnectionCredentials.URL, ConnectionCredentials.USERNAME,
+                        ConnectionCredentials.PASSWORD);
+                
+                String query = "SELECT DATE_FORMAT(dayTime, \"%m/%d/%Y %h:%i %p\"), reason, id FROM Appointment WHERE ssn = ? AND ";
+                
+                if (timePeriod.equals("upcoming") || timePeriod.equals("today")) 
+                {
+                    query += "dayTime >= CURRENT_TIMESTAMP ORDER BY dayTime ASC";
+                } 
+                else if(timePeriod.equals("past"))
+                {
+                    query += "dayTime < CURRENT_TIMESTAMP ORDER BY dayTime DESC";
+                }
+                
+                stmt = conn.prepareStatement(query);
+                stmt.setLong(1, ssn);
+                
+                ResultSet rs = stmt.executeQuery();
+                ResultSetMetaData rsMeta = rs.getMetaData();
+                int columnCount = rsMeta.getColumnCount();
+                
+                while (rs.next()) 
+                {
+                    ArrayList<String> subList = new ArrayList<String>();
+                    
+                    for (int col = 1; col <= columnCount; col++) 
+                    {
+                        if (col == columnCount) 
+                        {
+                            subList.add("<form class=\"form-inline\" method=\"post\" action=\"ModifyAppointment\"> "
+                                    + "<input type=\"hidden\" name=\"pageHeader\" value=\"Edit\"> "
+                                    + "<input type=\"hidden\" name=\"appointmentID\" value=\""
+                                    + rs.getString(col)
+                                    + "\" /><button type=\"submit\" class=\"btn btn-primary\">Edit</button></form>");
+                            subList.add("<form class=\"form-inline\" method=\"get\" action=\"DeleteAppointment\"> " 
+                                    + "<input type=\"hidden\" name=\"appointmentID\" value=\""
+                                    + rs.getString(col)
+                                    + "\" /><button type=\"submit\" class=\"btn btn-danger\">Delete</button></form>");
+                        } 
+                        else 
+                        {
+                            subList.add(rs.getString(col));
+                        }
+                    }
+                    totalAppointments.add(subList);
+                }
+                rs.close();
+                conn.close();
+            } 
+            catch (Exception e) 
+            {
+                System.out.println("error: " + e);
+                return new ArrayList<ArrayList<String>>();
+            }
+            return totalAppointments;
 	}
 
-	public static List<String> getSSNFromId(int id) {
-		List<String> patientSSN = new ArrayList<String>();
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(ConnectionCredentials.URL, ConnectionCredentials.USERNAME,
-					ConnectionCredentials.PASSWORD);
+	public static List<String> getSSNFromId(int id) 
+        {
+            List<String> patientSSN = new ArrayList<String>();
+            try 
+            {
+                Class.forName("com.mysql.jdbc.Driver");
+                conn = DriverManager.getConnection(ConnectionCredentials.URL, ConnectionCredentials.USERNAME,
+                        ConnectionCredentials.PASSWORD);
+                
+                stmt = conn.prepareStatement("SELECT P.SSN FROM Patient P INNER JOIN " 
+                        + "Appointment A ON P.SSN = A.SSN WHERE "
+                        + "A.ID = ?");
+                stmt.setInt(1, id);
+			
+                ResultSet rs = stmt.executeQuery();
+                ResultSetMetaData rsMeta = rs.getMetaData();
+                int columnCount = rsMeta.getColumnCount();
 
-			stmt = conn.prepareStatement("SELECT P.SSN FROM Patient P INNER JOIN " 
-									   + "Appointment A ON P.SSN = A.SSN WHERE "
-									   + "A.ID = ?");
-			stmt.setInt(1, id);
-			
-			ResultSet rs = stmt.executeQuery();
-			ResultSetMetaData rsMeta = rs.getMetaData();
-			int columnCount = rsMeta.getColumnCount();
-			
-			while (rs.next()) {
-				for (int col = 1; col <= columnCount; col++) {
-					patientSSN.add(rs.getString(col));
-				}
-			}
-			rs.close();
-			conn.close();
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		
-		return patientSSN;
-	}
+                while (rs.next()) 
+                {
+                    for (int col = 1; col <= columnCount; col++) 
+                    {
+                        patientSSN.add(rs.getString(col));
+                    }
+                }
+                rs.close();
+                conn.close();
+            } 
+            catch (Exception e) 
+            {
+                System.out.println(e);
+            }
+            return patientSSN;
+        }
 	
 	public static void update(int id, Timestamp dayTime, String status, String reason) throws ClassNotFoundException {
 		try {

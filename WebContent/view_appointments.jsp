@@ -18,11 +18,20 @@ div.b {
 			src="https://image.flaticon.com/icons/svg/149/149423.svg" alt="logo"
 			style="width: 30px;"> &nbsp;&nbsp;&nbsp;View Appointments
 		</a>
-		<form class="form-inline" method="get" action="ViewAppointments">
-			<input class="form-control mr-sm-2" type="search"
-				placeholder="Appointment Date" aria-label="Search" name="filterClause">
-			<button class="btn btn-sm btn-outline-secondary" type="submit">Search</button>
-		</form>
+             
+            <!--drop down list-->
+                <form action="ViewAppointments" method="get">
+                    <label for="dateFilter">Date:</label>
+                       <select name="dateFilter">
+                            <option value="Today" ${'Today' eq dateFilter ? 'selected' : ''}>Today</option>
+                            <option value="Past" ${'Past' eq dateFilter ? 'selected' : ''}>Past</option>
+                            <option value="Upcoming" ${'Upcoming' eq dateFilter ? 'selected' : ''}>Upcoming</option>
+                        </select>
+                    </label>
+                    <button type="submit" class="btn btn-primary"> OK </button>
+                </form>
+            
+            
 	</nav>
 	
 	<c:if test="${not empty bannerMessage}">
@@ -35,16 +44,16 @@ div.b {
 		</div>
 	</c:if>
 	
-	<h4>&nbsp;&nbsp;${searchHeader}</h4>
 	
 	<table class="table">
 		<thead>
 			<tr>
 				<th scope="col">Date/Time</th>
-				<th scope="col">Status</th>
-				<th scope="col">First Name</th>
-				<th scope="col">Last Name</th>
+				<th scope="col">First</th>
+				<th scope="col">Last</th>
+                                <th scope="col">Status</th>
 				<th scope="col">Reason</th>
+				<th scope="col"><!--space for edit/delete--></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -59,3 +68,4 @@ div.b {
 	</table>
 </body>
 </html>
+                
