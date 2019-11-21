@@ -75,8 +75,8 @@
 				<div class="form-group col-md-2">
 					<label for="status">Status *</label>
 					<select name="status" id="status" class="form-control">
-						<option value="Upcoming" ${ 'Upcoming' eq status ? 'selected' : ''}>Upcoming</option>
-						<option value="Completed" ${ 'Completed' eq status ? 'selected' : ''}>Completed</option>
+						<option value="Confirmed" ${ 'Confirmed' eq status ? 'selected' : ''}>Confirmed</option>
+						<option value="No Show" ${ 'No Show' eq status ? 'selected' : ''}>No Show</option>
 						<option value="Cancelled" ${ 'Cancelled' eq status ? 'selected' : ''}>Cancelled</option>
 					</select>
 				</div>
