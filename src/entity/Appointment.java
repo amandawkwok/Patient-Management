@@ -181,30 +181,26 @@ public class Appointment {
 
 			ResultSet rs = stmt.executeQuery(query);
 			ResultSetMetaData rsMeta = rs.getMetaData();
-			int columnCount = rsMeta.getColumnCount() - 1;
+			int columnCount = rsMeta.getColumnCount();
 
 			while (rs.next()) {
 				ArrayList<String> subList = new ArrayList<String>();
 
 				for (int col = 1; col <= columnCount; col++) {
-					String columnValue = rs.getString(col);
-
-					if (columnValue == null) {
-						subList.add("");
-					} else {
-						subList.add(rs.getString(col));
-					}
 
 					if (col == columnCount) {
-						subList.add("<form class=\"form-inline\"> "
+						subList.add("<form class=\"form-inline\" method=\"post\" action=\"ModifyAppointment\"> "
 								+ "<input type=\"hidden\" name=\"pageHeader\" value=\"Edit\"> "
+								+ "<input type=\"hidden\" name=\"tag\" value=\"fromAppointment\"> "
 								+ "<input type=\"hidden\" name=\"appointmentID\" value=\"" + rs.getString(col)
-								+ "<input type=\"hidden\" name=\"primaryKey\" value=\"" + rs.getString(col)
 								+ "\" /><button type=\"submit\" class=\"btn btn-primary\">Edit</button></form>");
-						subList.add("<form class=\"form-inline\"> "
+						subList.add("<form class=\"form-inline\" method=\"get\" action=\"DeleteAppointment\"> "
+								+ "<input type=\"hidden\" name=\"tag\" value=\"fromAppointment\"> "
 								+ "<input type=\"hidden\" name=\"appointmentID\" value=\"" + rs.getString(col)
 								+ "\" /><button type=\"submit\" class=\"btn btn-danger\">Delete</button></form>");
 					}
+					else
+						subList.add(rs.getString(col));
 
 				}
 				aList.add(subList);

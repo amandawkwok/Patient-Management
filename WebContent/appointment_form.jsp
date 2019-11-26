@@ -92,12 +92,19 @@
 			
 			<button type="submit" class="btn btn-primary">Save</button>
 			<input type="hidden" name="pageHeader" value="${param.pageHeader}" />
+			<input type="hidden" name="tag" value="fromAppointment" />
 			<input type="hidden" name="ssn" value="${param.ssn}" />
 		</form>
 		
 		<c:choose>
 			<c:when test="${param.pageHeader eq 'Add'}">
 				<form class="form-inline" method="post" action="ViewPatients">
+					<button type="submit" class="btn btn-warning">Cancel</button>
+					<input type="hidden" name="primaryKey" value="${param.ssn}" />
+				</form>
+			</c:when>
+			<c:when test="${param.tag eq 'fromAppointment'}">
+				<form class="form-inline" method="get" action="ViewAppointments">
 					<button type="submit" class="btn btn-warning">Cancel</button>
 					<input type="hidden" name="primaryKey" value="${param.ssn}" />
 				</form>
