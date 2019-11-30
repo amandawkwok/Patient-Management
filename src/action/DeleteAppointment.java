@@ -49,14 +49,14 @@ public class DeleteAppointment extends HttpServlet {
 		request.setAttribute("pastAppts", pastAppts);
 
 		String tag = request.getParameter("tag");
-		if(tag.contentEquals("fromAppointment")) {
+		if((tag != null) && tag.contentEquals("fromAppointment")) {
 			RequestDispatcher rd = request.getRequestDispatcher("ViewAppointments");			
-			request.setAttribute("bannerMessage", "Success! Appointment has been updated.");
+			request.setAttribute("bannerMessage", "Success! Appointment has been deleted.");
 			rd.include(request, response);
 		}
 		else {
 			RequestDispatcher rd = request.getRequestDispatcher("view_patient.jsp");			
-			request.setAttribute("bannerMessage", "Success! Appointment has been updated.");
+			request.setAttribute("bannerMessage", "Success! Appointment has been deleted.");
 			rd.include(request, response);
 		}
 	}

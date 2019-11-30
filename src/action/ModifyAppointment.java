@@ -94,7 +94,7 @@ public class ModifyAppointment extends HttpServlet{
 				request.setAttribute("pastAppts", pastAppts);
 				
 				String tag = request.getParameter("tag");
-				if(tag.contentEquals("fromAppointment")) {
+				if (tag.contentEquals("fromAppointment")) {
 					RequestDispatcher rd = request.getRequestDispatcher("ViewAppointments");			
 					request.setAttribute("bannerMessage", "Success! Appointment has been updated.");
 					rd.include(request, response);

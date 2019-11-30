@@ -92,7 +92,7 @@
 			
 			<button type="submit" class="btn btn-primary">Save</button>
 			<input type="hidden" name="pageHeader" value="${param.pageHeader}" />
-			<input type="hidden" name="tag" value="fromAppointment" />
+			<input type="hidden" name="tag" value="${param.tag}" />
 			<input type="hidden" name="ssn" value="${param.ssn}" />
 		</form>
 		
