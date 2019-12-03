@@ -220,7 +220,7 @@ public class Patient {
 							+ "FROM Patient P LEFT JOIN (SELECT * FROM jdbc.Appointment A WHERE A.dayTime>="
 							+ "CURRENT_TIMESTAMP AND A.dayTime <= ALL (SELECT AA.dayTime FROM Appointment AA "
 							+ "WHERE A.SSN = AA.SSN AND AA.dayTime>=CURRENT_TIMESTAMP)) AAA ON P.SSN=AAA.SSN)"
-							+ " AAAA " + filterClause);
+							+ " AAAA " + filterClause + " ORDER BY LastName");
 
 			ResultSetMetaData rsMeta = rs.getMetaData();
 			int columnCount = rsMeta.getColumnCount() - 1;
