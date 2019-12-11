@@ -16,9 +16,10 @@
 				Patients</button>
 		</form>
 	</nav>
-	
+
 	<c:if test="${not empty bannerMessage}">
-		<div class="alert alert-success alert-dismissible fade show" role="alert">
+		<div class="alert alert-success alert-dismissible fade show"
+			role="alert">
 			${bannerMessage}
 			<button type="button" class="close" data-dismiss="alert"
 				aria-label="Close">
@@ -201,8 +202,29 @@
 			<tbody>
 				<c:forEach items="${upcomingAppts}" var="outer">
 					<tr>
-						<c:forEach var="inner" items="${outer}">
-							<td>${inner}</td>
+						<c:forEach var="inner" varStatus="innerArray" items="${outer}">
+							<c:choose>
+								<c:when test="${(fn:length(outer)) == innerArray.count}">
+									<td>
+										<form class="form-inline" method="post"
+											action="ModifyAppointment">
+											<input type="hidden" name="pageHeader" value="Edit">
+											<input type="hidden" name="appointmentID" value="${inner}">
+											<button type="submit" class="btn btn-primary">Edit</button>
+										</form>
+									</td>
+									<td>
+										<form class="form-inline" method="get"
+											action="DeleteAppointment">
+											<input type="hidden" name="appointmentID" value="${inner}">
+											<button type="submit" class="btn btn-danger">Delete</button>
+										</form>
+									</td>
+								</c:when>
+								<c:otherwise>
+									<td>${inner}</td>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 					</tr>
 				</c:forEach>
@@ -220,8 +242,29 @@
 			<tbody>
 				<c:forEach items="${pastAppts}" var="outer">
 					<tr>
-						<c:forEach var="inner" items="${outer}">
-							<td>${inner}</td>
+						<c:forEach var="inner" varStatus="status" items="${outer}">
+							<c:choose>
+								<c:when test="${(fn:length(outer)) == status.count}">
+									<td>
+										<form class="form-inline" method="post"
+											action="ModifyAppointment">
+											<input type="hidden" name="pageHeader" value="Edit">
+											<input type="hidden" name="appointmentID" value="${inner}">
+											<button type="submit" class="btn btn-primary">Edit</button>
+										</form>
+									</td>
+									<td>
+										<form class="form-inline" method="get"
+											action="DeleteAppointment">
+											<input type="hidden" name="appointmentID" value="${inner}">
+											<button type="submit" class="btn btn-danger">Delete</button>
+										</form>
+									</td>
+								</c:when>
+								<c:otherwise>
+									<td>${inner}</td>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 					</tr>
 				</c:forEach>

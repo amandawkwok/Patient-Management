@@ -187,21 +187,7 @@ public class Appointment {
 				ArrayList<String> subList = new ArrayList<String>();
 
 				for (int col = 1; col <= columnCount; col++) {
-
-					if (col == columnCount) {
-						subList.add("<form class=\"form-inline\" method=\"post\" action=\"ModifyAppointment\"> "
-								+ "<input type=\"hidden\" name=\"pageHeader\" value=\"Edit\"> "
-								+ "<input type=\"hidden\" name=\"tag\" value=\"fromAppointment\"> "
-								+ "<input type=\"hidden\" name=\"appointmentID\" value=\"" + rs.getString(col)
-								+ "\" /><button type=\"submit\" class=\"btn btn-primary\">Edit</button></form>");
-						subList.add("<form class=\"form-inline\" method=\"get\" action=\"DeleteAppointment\"> "
-								+ "<input type=\"hidden\" name=\"tag\" value=\"fromAppointment\"> "
-								+ "<input type=\"hidden\" name=\"appointmentID\" value=\"" + rs.getString(col)
-								+ "\" /><button type=\"submit\" class=\"btn btn-danger\">Delete</button></form>");
-					}
-					else
-						subList.add(rs.getString(col));
-
+					subList.add(rs.getString(col));
 				}
 				aList.add(subList);
 			}
@@ -239,17 +225,7 @@ public class Appointment {
 				ArrayList<String> subList = new ArrayList<String>();
 
 				for (int col = 1; col <= columnCount; col++) {
-					if (col == columnCount) {
-						subList.add("<form class=\"form-inline\" method=\"post\" action=\"ModifyAppointment\"> "
-								+ "<input type=\"hidden\" name=\"pageHeader\" value=\"Edit\"> "
-								+ "<input type=\"hidden\" name=\"appointmentID\" value=\"" + rs.getString(col)
-								+ "\" /><button type=\"submit\" class=\"btn btn-primary\">Edit</button></form>");
-						subList.add("<form class=\"form-inline\" method=\"get\" action=\"DeleteAppointment\"> "
-								+ "<input type=\"hidden\" name=\"appointmentID\" value=\"" + rs.getString(col)
-								+ "\" /><button type=\"submit\" class=\"btn btn-danger\">Delete</button></form>");
-					} else {
-						subList.add(rs.getString(col));
-					}
+					subList.add(rs.getString(col));
 				}
 				totalAppointments.add(subList);
 			}

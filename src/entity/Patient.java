@@ -223,7 +223,7 @@ public class Patient {
 							+ " AAAA " + filterClause + " ORDER BY LastName");
 
 			ResultSetMetaData rsMeta = rs.getMetaData();
-			int columnCount = rsMeta.getColumnCount() - 1;
+			int columnCount = rsMeta.getColumnCount();
 
 			while (rs.next()) {
 				ArrayList<String> subList = new ArrayList<String>();
@@ -235,12 +235,6 @@ public class Patient {
 						subList.add("");
 					} else {
 						subList.add(rs.getString(col));
-					}
-
-					if (col == columnCount) {
-						subList.add("<form method=\"post\" action=\"ViewPatients\"> "
-								+ "<input type=\"hidden\" name=\"primaryKey\" value=\"" + rs.getString(col + 1) + "\">"
-								+ "<input type=\"submit\" value=\"View\" class=\"btn btn-info\"></form>");
 					}
 				}
 				aList.add(subList);

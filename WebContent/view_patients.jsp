@@ -32,7 +32,8 @@ div.b {
 	</nav>
 
 	<c:if test="${not empty bannerMessage}">
-		<div class="alert alert-success alert-dismissible fade show" role="alert">
+		<div class="alert alert-success alert-dismissible fade show"
+			role="alert">
 			${bannerMessage}
 			<button type="button" class="close" data-dismiss="alert"
 				aria-label="Close">
@@ -40,7 +41,7 @@ div.b {
 			</button>
 		</div>
 	</c:if>
-	
+
 	<h4>&nbsp;&nbsp;${searchHeader}</h4>
 
 	<table class="table">
@@ -55,8 +56,20 @@ div.b {
 		<tbody>
 			<c:forEach items="${arrayList}" var="outer">
 				<tr>
-					<c:forEach var="inner" items="${outer}">
-						<td>${inner}</td>
+					<c:forEach var="inner" varStatus="status" items="${outer}">
+						<c:choose>
+							<c:when test="${(fn:length(outer)) == status.count}">
+								<td>
+									<form method="post" action="ViewPatients">
+										<input type="hidden" name="primaryKey" value="${inner}">
+										<input type="submit" value="View" class="btn btn-info">
+									</form>
+								</td>
+							</c:when>
+							<c:otherwise>
+								<td>${inner}</td>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 				</tr>
 			</c:forEach>
