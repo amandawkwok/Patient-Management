@@ -23,17 +23,13 @@ div.b {
 		<!--drop down list-->
 		<form action="ViewAppointments" method="get">
 			<label for="dateFilter">Date:</label>
-			<select name="dateFilter">
+			<select id="dateFilter" name="dateFilter">
 				<option value="Today" ${'Today' eq dateFilter ? 'selected' : ''}>Today</option>
 				<option value="Past" ${'Past' eq dateFilter ? 'selected' : ''}>Past</option>
 				<option value="Upcoming"
 					${'Upcoming' eq dateFilter ? 'selected' : ''}>Upcoming</option>
 			</select>
-			</label>
-			<button type="submit" class="btn btn-primary">OK</button>
 		</form>
-
-
 	</nav>
 
 	<c:if test="${not empty bannerMessage}">
@@ -46,7 +42,6 @@ div.b {
 			</button>
 		</div>
 	</c:if>
-
 
 	<table class="table">
 		<thead>
@@ -94,5 +89,12 @@ div.b {
 			</c:forEach>
 		</tbody>
 	</table>
+	<script>
+		$(function() {
+			$('#dateFilter').change(function() {
+				this.form.submit();
+			});
+		});
+	</script>
 </body>
 </html>
