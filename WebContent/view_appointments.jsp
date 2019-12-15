@@ -68,6 +68,7 @@ div.b {
 										<input type="hidden" name="pageHeader" value="Edit">
 										<input type="hidden" name="tag" value="fromAppointment">
 										<input type="hidden" name="appointmentID" value="${inner}" />
+										<input type="hidden" name="dateFilter" value="${dateFilter}" />
 										<button type="submit" class="btn btn-primary">Edit</button>
 									</form>
 								</td>
@@ -76,6 +77,7 @@ div.b {
 										action="DeleteAppointment">
 										<input type="hidden" name="tag" value="fromAppointment">
 										<input type="hidden" name="appointmentID" value="${inner}" />
+										<input type="hidden" name="dateFilter" value="${dateFilter}" />
 										<button type="submit" class="btn btn-danger">Delete</button>
 									</form>
 								</td>
