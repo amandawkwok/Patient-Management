@@ -197,6 +197,7 @@
 					<th scope="col">Day/Time</th>
 					<th scope="col">Status</th>
 					<th scope="col">Reason</th>
+					<th scope="col"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -237,6 +238,7 @@
 					<th scope="col">Day/Time</th>
 					<th scope="col">Status</th>
 					<th scope="col">Reason</th>
+					<th scope="col"></th>
 				</tr>
 			</thead>
 			<tbody>
